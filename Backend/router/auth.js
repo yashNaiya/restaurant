@@ -3,7 +3,25 @@ const User = require("../Models/Users")
 
 const router = express.Router()
 
-
+router.post("/login",(req,res)=>{
+    const {email,password} = req.body
+   //  console.log(req.body)
+    User.findOne({email:email,state:true},(err,user) =>{
+      if(user){
+          if(password[0] === user.password){
+               res.send({message:"LogIn Sucessful",user,state:1})
+          }
+          else{
+           //  console.log("Password Did Not Match")
+          
+           res.send({message:"Password Did Not Match",state:0})
+          }
+      }else{
+       //    console.log("User Not Registered")
+          res.send({message:"User Not Registered",state:0})
+      }
+    })
+})
 
 router.post("/register", (req,res)=>{
     console.log(req.body)
