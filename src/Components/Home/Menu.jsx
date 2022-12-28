@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import React from 'react'
 import Card from './Card'
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
