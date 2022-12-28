@@ -30,7 +30,7 @@ router.post("/register", (req,res)=>{
 
        User.findOne({email:email},(err,user)=>{
        if(user){
-           res.send({message:"User Already registered"})
+           res.send({message:"User Already Registered"})
        }else{
            const user = new User({
                name:name[0],
@@ -45,8 +45,7 @@ router.post("/register", (req,res)=>{
                      res.send(err)
                }
                else{
-                   res.send({message:"Successfully Registration"})
-                   
+                   res.send({message:"Successfully Registration"})     
                }
            })
        }

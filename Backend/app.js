@@ -14,7 +14,6 @@ const middleware = (req,res,next)=>{
 app.use(require('./router/auth'))
 
 
-
 app.listen(9002,()=>{
     console.log("Be Started at port 9002")
  })

@@ -1,28 +1,31 @@
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
+    const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState(null);
-  const Open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
- 
-  
-  const handleToronto = async () =>{
-   
-    console.log('viewer1')
-    setAnchorEl(null);
-  };
-  const handleKitchener = async () => {
-   
-    console.log('viewer2')
-    setAnchorEl(null);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+    const Open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+
+    const handleToronto = async () => {
+
+        console.log('viewer1')
+        setAnchorEl(null);
+    };
+    const handleKitchener = async () => {
+
+        console.log('viewer2')
+        setAnchorEl(null);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     return (
         <Box paddingX={8} bgcolor={'secondary.main'} p={3} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
             <Box>
@@ -52,13 +55,19 @@ const Navbar = () => {
                     <MenuItem onClick={handleToronto}>Toronto</MenuItem>
                     <MenuItem onClick={handleKitchener}>Kitchener</MenuItem>
                 </Menu>
-                <Button>
+                <Button onClick={()=>{
+                    navigate('/home')
+                }}>
                     offers
                 </Button>
-                <Button>
+                <Button onClick={()=>{
+                    navigate('/cart')
+                }}>
                     Cart
                 </Button>
-                <Button>
+                <Button onClick={()=>{
+                    navigate('/account')
+                }}>
                     Account
                 </Button>
             </Box>
