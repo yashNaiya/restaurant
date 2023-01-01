@@ -1,24 +1,31 @@
 const express = require('express')
 const User = require("../Models/Users")
-
+const bcrypt = require("bcryptjs")
+const Authenticate = require("../Middleware/Authenticate")
 const router = express.Router()
 
-router.post("/login",(req,res)=>{
+router.post("/login",Authenticate,(req,res)=>{
     const {email,password} = req.body
    //  console.log(req.body)
-    User.findOne({email:email,state:true},(err,user) =>{
+    User.findOne({email:email,state:true},async (err,user) =>{
       if(user){
-          if(password[0] === user.password){
-               res.send({message:"LogIn Sucessful",user,state:1})
+        const isMatch = await bcrypt.compare(password[0], user.password)
+          if(isMatch){
+                token = await user.generateAuthToken();
+
+               res.cookie("jwtoken",token,{
+                expires:new Date(Date.now() + 864000000),
+                httpOnly:true
+               }).send({message:"LogIn Sucessful",user})
           }
           else{
            //  console.log("Password Did Not Match")
           
-           res.send({message:"Password Did Not Match",state:0})
+           res.send({message:"Incorrect Credienteals"})
           }
       }else{
        //    console.log("User Not Registered")
-          res.send({message:"User Not Registered",state:0})
+          res.send({message:"Incorrect Credienteals"})
       }
     })
 })
