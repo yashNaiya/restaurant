@@ -54,7 +54,7 @@ Infouser.methods.generateAuthToken = async function () {
 //hash code
 
 Infouser.pre('save', async function (next) {
-    console.log("hii from inside pre")
+    
     if (this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 12);
     }

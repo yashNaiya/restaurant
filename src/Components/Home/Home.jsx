@@ -2,11 +2,12 @@ import { Box } from '@mui/system'
 import React from 'react'
 import Navbar from '../Navbar'
 import Menu from './Menu'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
 
+  const [rootUser, setrootUser] = useState()
   const navigate = useNavigate()
   const callHomePage = async ()=>{
     try{
@@ -20,6 +21,7 @@ const Home = () => {
       });
 
       const data = await res.json()
+      setrootUser(data.rootUser)
       console.log(data)
 
       if(!res.status === 200){

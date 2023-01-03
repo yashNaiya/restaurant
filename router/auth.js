@@ -3,8 +3,9 @@ const User = require("../Models/Users")
 const bcrypt = require("bcryptjs")
 const Authenticate = require("../Middleware/Authenticate")
 const router = express.Router()
-
-router.post("/login",Authenticate,(req,res)=>{
+const cookieParser = require('cookie-parser')
+router.use(cookieParser())
+router.post("/login",(req,res)=>{
     const {email,password} = req.body
    //  console.log(req.body)
     User.findOne({email:email,state:true},async (err,user) =>{
@@ -16,7 +17,7 @@ router.post("/login",Authenticate,(req,res)=>{
                res.cookie("jwtoken",token,{
                 expires:new Date(Date.now() + 864000000),
                 httpOnly:true
-               }).send({message:"LogIn Sucessful",user})
+               }).send({message:"LogIn Sucessful"}) 
           }
           else{
            //  console.log("Password Did Not Match")
@@ -59,6 +60,15 @@ router.post("/register", (req,res)=>{
     
        })
     // res.send('my register api')
+})
+
+
+router.get("/home", Authenticate ,async (req,res)=>{
+    res.send({rootUser:req.rootUser,message:"on home page"})
+})
+
+router.get("/account", Authenticate ,async (req,res)=>{
+    res.send({rootUser:req.rootUser,message:"on account page"})
 })
 
 module.exports  =router
