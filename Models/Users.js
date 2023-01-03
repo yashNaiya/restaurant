@@ -51,7 +51,7 @@ Infouser.methods.generateAuthToken = async function () {
 }
 
 
-//hash code
+//password hash code
 
 Infouser.pre('save', async function (next) {
     
