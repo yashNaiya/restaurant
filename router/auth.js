@@ -59,7 +59,6 @@ router.post("/register", (req,res)=>{
        }
     
        })
-    // res.send('my register api')
 })
 
 
