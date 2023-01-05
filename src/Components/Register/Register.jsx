@@ -3,7 +3,7 @@ import { Box, Typography, TextField, Button } from '@mui/material'
 import { useState } from 'react'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import axios from 'axios';
-import { Navigate, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Register = () => {
     const handleChange = (e) => {
