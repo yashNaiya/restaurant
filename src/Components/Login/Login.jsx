@@ -26,7 +26,7 @@ const Login = () => {
         e.preventDefault();
         const { email, password } = inputs
         if (email && password) {
-            axios.post("/login", inputs)
+            axios.post(" https://yash-restaurant-backend.onrender.com/login", inputs)
                 .then(res => {
                     alert(res.data.message)
                     console.log(res.data)
