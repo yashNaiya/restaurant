@@ -1,7 +1,7 @@
 {
   "name": "restaurant",
   "version": "0.1.0",
-  "proxy": "http://localhost:9002",
+  "proxy": "http://127.0.0.1:9002",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",

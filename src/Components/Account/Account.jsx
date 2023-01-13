@@ -4,35 +4,19 @@ import Navbar from '../Navbar'
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import UserInfo from './UserInfo';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import OrderHistory from './OrderHistory';
+import api from '../../Api';
 const Account = () => {
     const [rootUser, setrootUser] = useState()
     const navigation = useNavigate()
-    const callAccountPage = async () => {
-        try {
-            const res = await fetch('/account', {
-                method: "GET",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                credentials: "include"
-            });
-
-            const data = await res.json()
-            setrootUser(data.rootUser)
-            // console.log(rootUser)
-
-
-            if (!res.status === 200) {
-                throw new Error(res.error)
-            }
-
-        } catch (err) {
-            console.log(err)
-            navigation("/login")
-        }
+    const callAccountPage =  () => {
+        api.get("/account", { withCredentials: true })
+            .then(res => {
+                setrootUser(res.data.rootUser)
+            }).catch((err) => {
+                navigation('/login')
+            })
     }
     useEffect(() => {
         callAccountPage();
@@ -51,7 +35,7 @@ const Account = () => {
                     <Typography m={'auto'} textAlign={'center'} variant={'h5'}>Account</Typography>
                 </Box>
                 <Box marginTop={'2rem'} width={'100%'} display={'flex'} flexDirection={'row'} justifyContent={'space-around'}>
-                    <UserInfo rootUser={rootUser} />
+                    <UserInfo rootUser={rootUser} setrootUser={setrootUser} />
                     <OrderHistory />
                 </Box>
             </Box>
