@@ -23,13 +23,15 @@ const Home = () => {
   useEffect(() => {
     callHomePage();
   }, [])
-  
-  return (
-    <Box display={'flex'} flexDirection={'column'}>
-      <Navbar />
-      <Menu />
-    </Box>
-  )
+  if(rootUser){
+    return (
+      <Box display={'flex'} flexDirection={'column'}>
+        <Navbar />
+        <Menu rootUserId = {rootUser._id}/>
+      </Box>
+    )
+  }
+
 }
 
 export default Home

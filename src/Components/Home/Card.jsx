@@ -4,19 +4,42 @@ import { useState, useEffect } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import useForceUpdate from 'use-force-update';
+import api from '../../Api';
+import useDidMountEffect from '../../DidMount';
+import axios from 'axios';
 
 const Card = (props) => {
-    const forceUpdate = useForceUpdate();
+
     const [counter, setCounter] = useState(0)
-    const [add, setAdd] = useState(0)
+
+    const handleAddtocart = () => {
+        api.post('/addtocart', { count: counter, userId: props.rootUserId, productId: props.item._id })
+            .then()
+            .catch(err => {
+                console.log(err)
+            })
+
+    }
+    useDidMountEffect(() => {
+        localStorage.setItem(props.item._id, counter)
+        handleAddtocart()
+    }, [counter])
     useEffect(() => {
-        console.log('mounted')
-    }, [add])
-    const clicked = ()=>{
+        if (localStorage.getItem(props.item._id)) {
+            // console.log(count)
+            if (localStorage.getItem(props.item._id) === '0') {
+                localStorage.removeItem(props.item._id)
+            } else {
+                setCounter(localStorage.getItem(props.item._id))
+            }
+        }
+    }, [])
+
+    const clicked = () => {
     }
     if (props.item) {
         return (
-            <Box  display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'}
+            <Box display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'}
             >
                 <Box width={'250px'} marginBottom={'1rem'} minHeight={'280px'} borderRadius={'12px'}
                     display={'flex'} flexDirection={'column'} justifyContent={'space-between'}
@@ -26,7 +49,7 @@ const Card = (props) => {
                         onClick={clicked}
                         minHeight={'50%'}
                         sx={{
-                            ":hover":{cursor:'pointer',opacity:'.7'},
+                            ":hover": { cursor: 'pointer', opacity: '.7' },
                             backgroundImage: `url(${props.image})`,
                             backgroundSize: "cover",
                             backgroundPosition: 'center'
@@ -46,28 +69,38 @@ const Card = (props) => {
                         </Box>
                     </Box>
                     <Box marginTop={'.5rem'} width={'100%'} display={'flex'} justifyContent={'space-around'}>
-                        {add === 0 &&
+                        {counter === 0 &&
                             <Button
                                 variant='contained'
-                                sx={{ paddingX: '1.2rem' }} onClick={() => { setAdd(1); setCounter(1); }}
+                                sx={{ paddingX: '1.2rem' }}
+                                onClick={async () => {
+                                    setCounter(1)
+                                    // handleAddtocart()
+                                }
+                                }
                             >
                                 Add
                             </Button>}
-                        {add === 1 &&
+                        {!(counter === 0) &&
                             <Box p={'.3rem'} borderRadius={'.2rem'} border={'1px solid #a9927d'} display={'flex'} flexDirection={'row'}>
                                 <Button onClick={() => {
                                     if (counter === 1) {
-                                        setAdd(0)
-                                        forceUpdate()
+                                        setCounter(0)
+                                        // handleAddtocart()
+                                        // forceUpdate()
                                     }
                                     else {
                                         setCounter(counter - 1)
+                                        // handleAddtocart()
                                     }
                                 }} sx={{ minHeight: 0, minWidth: 0, padding: 0 }}>
                                     <RemoveIcon />
                                 </Button>
                                 <Typography>{counter}</Typography>
-                                <Button onClick={() => { setCounter(counter + 1) }} sx={{ minHeight: 0, minWidth: 0, padding: 0 }}>
+                                <Button onClick={() => {
+                                    setCounter(counter + 1)
+                                    // handleAddtocart()
+                                }} sx={{ minHeight: 0, minWidth: 0, padding: 0 }}>
                                     <AddIcon />
                                 </Button>
                             </Box>}

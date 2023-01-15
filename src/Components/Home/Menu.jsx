@@ -10,7 +10,7 @@ import burger from '../../Assets/burger.jpg'
 import { Link } from 'react-scroll'
 import { useEffect, useState } from 'react';
 import api from '../../Api';
-const Menu = () => {
+const Menu = (props) => {
     const [open, setOpen] = React.useState(false);
     const [products, setproducts] = useState()
     const [pizzas, setpizzas] = useState(0)
@@ -46,6 +46,7 @@ const Menu = () => {
             // console.log(pizzas)
         }
     }, [products])
+    
     if(pizzas && burgers){
         return (
             <Box
@@ -96,7 +97,7 @@ const Menu = () => {
                     {pizzas.map(pizza=>{
                         return(
                             // <Typography>hii</Typography>
-                            <Card key={pizza._id} image={image} item={pizza} />
+                            <Card  rootUserId={props.rootUserId} key={pizza._id} image={image} item={pizza} />
                         )
                     })}
                 </Box>
@@ -114,8 +115,7 @@ const Menu = () => {
                 >
                     {burgers.map(burg=>{
                         return(
-                            
-                            <Card key={burg._id} image={burger} item={burg} />
+                            <Card  rootUserId={props.rootUserId} key={burg._id} image={burger} item={burg} />
                         )
                     })}
                 </Box>

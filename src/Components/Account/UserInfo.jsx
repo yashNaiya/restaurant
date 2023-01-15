@@ -8,6 +8,7 @@ const UserInfo = (props) => {
   const [edit, setedit] = useState(false)
   
   const handleSignout = ()=>{
+    localStorage.clear()
     api.post('/removeCookie',[],{withCredentials:true})
     .then(res=>{
       alert(res.data)
