@@ -2,8 +2,8 @@ import React from 'react'
 import { Box, Typography, TextField, Button } from '@mui/material'
 import { useState } from 'react'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import api from '../../Api';
 
 const Register = () => {
     const handleChange = (e) => {
@@ -26,7 +26,7 @@ const Register = () => {
         const { name, email, password, number } = inputs
         if (name && email && password && number ) {
             console.log(inputs);
-            axios.post("/register",inputs)
+            api.post("/register",inputs)
                 .then(res => {
                     alert(res.data.message)
                 })
