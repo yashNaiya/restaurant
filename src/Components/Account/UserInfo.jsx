@@ -9,7 +9,7 @@ const UserInfo = (props) => {
   
   const handleSignout = ()=>{
     localStorage.clear()
-    api.post('/removeCookie',[],{withCredentials:true})
+    api.post('/signout',{rootUserId:props.rootUser._id},{withCredentials:true})
     .then(res=>{
       alert(res.data)
     })

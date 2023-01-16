@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/static/js/main.cda98519.js",
+    "main.js": "/static/js/main.b2719266.js",
     "static/media/landing.jpg": "/static/media/landing.1c391f5c5a5e7de4f04b.jpg",
     "static/media/pizza.jpg": "/static/media/pizza.02846678326e3d062279.jpg",
     "static/media/burger.jpg": "/static/media/burger.8598148452dfdb988fc0.jpg",
     "index.html": "/index.html",
-    "main.cda98519.js.map": "/static/js/main.cda98519.js.map"
+    "main.b2719266.js.map": "/static/js/main.b2719266.js.map"
   },
   "entrypoints": [
-    "static/js/main.cda98519.js"
+    "static/js/main.b2719266.js"
   ]
 }
