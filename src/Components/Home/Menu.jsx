@@ -14,25 +14,25 @@ const Menu = (props) => {
     const [open, setOpen] = React.useState(false);
     const [products, setproducts] = useState()
     const [pizzas, setpizzas] = useState(0)
-    let pizzasTemp=[]
+    let pizzasTemp = []
     const [burgers, setburgers] = useState()
-    let burgersTemp=[]
+    let burgersTemp = []
     const handleClick = () => {
         setOpen(!open);
     };
-    const getproducts = ()=>{
+    const getproducts = () => {
         api.get('/getproducts')
-        .then(res=>{
-            setproducts(res.data)
-        })
-        if(products){
-            pizzasTemp = products.filter(product=>{
-                return(
+            .then(res => {
+                setproducts(res.data)
+            })
+        if (products) {
+            pizzasTemp = products.filter(product => {
+                return (
                     product.category === 'pizza'
                 )
             })
-            burgersTemp = products.filter(product=>{
-                return(
+            burgersTemp = products.filter(product => {
+                return (
                     product.category === 'burger'
                 )
             })
@@ -40,14 +40,14 @@ const Menu = (props) => {
     }
     useEffect(() => {
         getproducts()
-        if(pizzasTemp && burgersTemp){
+        if (pizzasTemp && burgersTemp) {
             setpizzas(pizzasTemp)
             setburgers(burgersTemp)
             // console.log(pizzas)
         }
     }, [products])
-    
-    if(pizzas && burgers){
+
+    if (pizzas && burgers) {
         return (
             <Box
                 maxWidth={'60%'}
@@ -58,12 +58,12 @@ const Menu = (props) => {
                 justifyContent={'space-around'}
                 flexDirection={'column'}>
                 <Box width={'300px'}>
-                    
+
                     <ListItemButton onClick={handleClick}>
                         <ListItemIcon>
                             <InboxIcon />
                         </ListItemIcon>
-                        
+
                         <ListItemText primary="Menu" />
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
@@ -82,7 +82,7 @@ const Menu = (props) => {
                         </List>
                     </Collapse>
                 </Box>
-    
+
                 <Box
                     id={'pizza'}
                     borderTop={'2px solid #a9927d'}
@@ -94,10 +94,9 @@ const Menu = (props) => {
                     flexWrap={'wrap'}
                     justifyContent={'space-evenly'}
                 >
-                    {pizzas.map(pizza=>{
-                        return(
-                            // <Typography>hii</Typography>
-                            <Card  rootUserId={props.rootUserId} key={pizza._id} image={image} item={pizza} />
+                    {pizzas.map(pizza => {
+                        return (
+                            <Card rootUserId={props.rootUserId} key={pizza._id} image={image} item={pizza} />
                         )
                     })}
                 </Box>
@@ -113,17 +112,17 @@ const Menu = (props) => {
                     flexWrap={'wrap'}
                     justifyContent={'space-evenly'}
                 >
-                    {burgers.map(burg=>{
-                        return(
-                            <Card  rootUserId={props.rootUserId} key={burg._id} image={burger} item={burg} />
+                    {burgers.map(burg => {
+                        return (
+                            <Card rootUserId={props.rootUserId} key={burg._id} image={burger} item={burg} />
                         )
                     })}
                 </Box>
-    
+
             </Box>
         )
-    }else{
-        return(
+    } else {
+        return (
             <Typography>Loading...</Typography>
         )
     }

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { NavLink } from 'react-router-dom';
 import api from '../../Api';
+import validator from 'validator'
 
 const Register = () => {
     const handleChange = (e) => {
@@ -24,16 +25,22 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { name, email, password, number } = inputs
-        if (name && email && password && number ) {
-            console.log(inputs);
-            api.post("/register",inputs)
-                .then(res => {
-                    alert(res.data.message)
-                })
-
-        } else {
-            alert("Invalid Input")
-        }
+        if (validator.isStrongPassword(password[0], {
+            minLength: 8, minLowercase: 1,
+            minUppercase: 1, minNumbers: 1, minSymbols: 1
+          })) {
+            if (name && email && password && number ) {
+                api.post("/register",inputs)
+                    .then(res => {
+                        alert(res.data.message)
+                    })
+    
+            } else {
+                alert("Invalid Input")
+            }
+          } else {
+            alert('Is Not Strong Password')
+          }
 
     }
     return (
