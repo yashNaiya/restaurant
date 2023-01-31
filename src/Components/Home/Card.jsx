@@ -3,34 +3,35 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import useForceUpdate from 'use-force-update';
 import api from '../../Api';
 import useDidMountEffect from '../../DidMount';
-import axios from 'axios';
 
 const Card = (props) => {
 
     const [counter, setCounter] = useState(0)
-
     const handleAddtocart = () => {
-        api.post('/addtocart', { count: counter, userId: props.rootUserId, productId: props.item._id })
-            .then()
+        api.post('/addtocart', { count: counter, userId: props.rootUserId, productId: props.item._id, price: props.item.price,name:props.item.name })
+            .then(res=>{
+                
+            })
             .catch(err => {
                 console.log(err)
             })
 
     }
     useDidMountEffect(() => {
+        // console.log("hiii")
         localStorage.setItem(props.item._id, counter)
-        handleAddtocart()
+        if(props.item.price){
+            handleAddtocart()
+        }
     }, [counter])
     useEffect(() => {
         if (localStorage.getItem(props.item._id)) {
-            // console.log(count)
             if (localStorage.getItem(props.item._id) === '0') {
                 localStorage.removeItem(props.item._id)
             } else {
-                setCounter(localStorage.getItem(props.item._id))
+                setCounter(parseInt(localStorage.getItem(props.item._id)))
             }
         }
     }, [])
