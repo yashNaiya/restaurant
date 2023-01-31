@@ -11,7 +11,7 @@ import useDidMountEffect from '../../DidMount';
 
 const ReviewCard = (props) => {
     const [product, setProduct] = useState()
-    const [count, setCount] = useState()
+    const [count, setCount] = useState(0)
     
     useEffect(() => {
         if (props.item) {
@@ -22,26 +22,29 @@ const ReviewCard = (props) => {
                 }).catch(err => {
                 })
         }
-        setCount(parseInt(localStorage.getItem(props.item.productId)))
-        if(product && count){
-
-        }   
+        
+        setCount(parseInt(localStorage.getItem(props.item.productId)))   
     }, [])
+
     const handleAddtocart = () => {
-        api.post('/addtocart', { count: count, userId: props.rootUserId, productId: props.item.productId })
-            .then()
+        api.post('/addtocart', { count: count, userId: props.rootUserId, productId: props.item.productId,price:product.price,name:product.name })
+            .then(res=>{
+                props.setTotal(res.data.total)
+                props.setGst(res.data.gst)
+            })
             .catch(err => {
                 console.log(err)
             })
 
     }
     useDidMountEffect(() => {
-        // console.log(count)
         if (count === 0) {
             localStorage.removeItem(props.item.productId)
         }
         localStorage.setItem(props.item.productId, count)
-        handleAddtocart()
+        if(product){
+            handleAddtocart()
+        }
     }, [count])
     if (product && !(count === 0)) {
         return (
@@ -67,7 +70,6 @@ const ReviewCard = (props) => {
                         <Button
                             onClick={() => {
                                 setCount(count - 1)
-                                props.setTotal(props.total - product.price)
 
                             }}
                             sx={{ minHeight: 0, minWidth: 0, padding: 0 }}>
@@ -77,13 +79,12 @@ const ReviewCard = (props) => {
                         <Button
                             onClick={() => {
                                 setCount(count + 1)
-                                props.setTotal(props.total + product.price)
                             }}
                             sx={{ minHeight: 0, minWidth: 0, padding: 0 }}>
                             <AddIcon />
                         </Button>
                     </Box>
-                    <Typography >${product.price * count}</Typography>
+                    <Typography >${(product.price * count).toFixed(2)}</Typography>
                 </Box>
             </Box>
         )

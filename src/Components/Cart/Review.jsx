@@ -7,7 +7,7 @@ const Review = (props) => {
   const [cartArray, setcartArray] = useState()
   useEffect(() => {
     if (props.rootUser) {
-      console.log("fetch data called")
+      // console.log("fetch data called")
       api.post('/incart', { rootUserId: props.rootUser._id })
         .then(res => {
           setcartArray(res.data)
@@ -15,18 +15,32 @@ const Review = (props) => {
     }
   }, [props.rootUser])
 
+  useEffect(() => {
+    setcartArray([])
+  }, [props.hasOrdered])
+  
 
-  if (cartArray) {
+
+  if (cartArray && props) {
     return (
       <Box width={'50%'}>
         <Typography color="primary.main">Review Order</Typography>
         {cartArray.map(card => {
           return (
-            <ReviewCard setTotal={props.setTotal} key={card._id} item={card} rootUserId={props.rootUser._id} />
+            <ReviewCard 
+            setGst={props.setGst}
+            setTotal={props.setTotal} 
+            key={card._id} 
+            item={card} 
+            rootUserId={props.rootUser._id} />
           )
         })}
       </Box>
     )
+  }
+
+  if(props.hasOrdered){
+    <></>
   }
   else {
     return (
@@ -36,3 +50,8 @@ const Review = (props) => {
 }
 
 export default Review
+
+
+
+
+
