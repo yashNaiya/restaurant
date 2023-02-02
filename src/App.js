@@ -5,6 +5,7 @@ import Register from "./Components/Register/Register"
 import Home from "./Components/Home/Home"
 import Cart from "./Components/Cart/Cart";
 import Account from "./Components/Account/Account";
+import AdminMain from "./Components/Admin/AdminMain";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/home" element={<Home/>}></Route>
       <Route path="/cart" element={<Cart/>}></Route>
       <Route path="/account" element={<Account/>}></Route>
+      <Route path="/adminpage" element={<AdminMain/>}></Route>
     </Routes>
   );
 }
