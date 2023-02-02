@@ -36,7 +36,7 @@ const Account = () => {
                 </Box>
                 <Box marginTop={'2rem'} width={'100%'} display={'flex'} flexDirection={'row'} justifyContent={'space-around'}>
                     <UserInfo rootUser={rootUser} setrootUser={setrootUser} />
-                    <OrderHistory />
+                    <OrderHistory rootUser={rootUser} />
                 </Box>
             </Box>
         </Box>
