@@ -5,6 +5,7 @@ import api from '../../Api';
 
 
 const AdminCard = (props) => {
+    const SERVER_HOST = 'http://localhost:9002/images/'
     if (props.item) {
         return (
             <Box display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'}
@@ -17,7 +18,7 @@ const AdminCard = (props) => {
                         minHeight={'50%'}
                         sx={{
                             ":hover": { cursor: 'pointer', opacity: '.7' },
-                            backgroundImage: `url(${props.image})`,
+                            backgroundImage: `url(${SERVER_HOST + props.item.image})`,
                             backgroundSize: "cover",
                             backgroundPosition: 'center'
                         }}
