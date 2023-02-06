@@ -18,21 +18,21 @@ const AdminMain = () => {
                     <Box bgcolor={'secondary.main'} flex={.3} minHeight={'100vh'} maxHeight={'100%'} paddingTop={'3rem'}>
                         <ListItem sx={{ paddingX: '0' }}>
                             <ListItemButton onClick={() => { setonItems(false) }} sx={{ backgroundColor: "#f2f2f2" }}>
-                                <ListItemText>orders</ListItemText>
+                                <ListItemText>items</ListItemText>
                             </ListItemButton>
                         </ListItem>
                         <ListItem sx={{ paddingX: '0' }}>
                             <ListItemButton onClick={() => { setonItems(true) }} sx={{ backgroundColor: "#f2f2f2" }}>
-                                <ListItemText>items</ListItemText>
+                                <ListItemText>orders</ListItemText>
                             </ListItemButton>
                         </ListItem>
                     </Box>
                     <Box flex={1.5}>
-                        {onItems &&
+                        {!onItems &&
                             <Box>
                                 <Item/>
                             </Box>}
-                        {!onItems &&
+                        {onItems &&
                             <Box>
                                <Order/>
                             </Box>}
