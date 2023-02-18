@@ -155,8 +155,8 @@ const Item = () => {
     if (citylist && categorylist && items) {
         if (display) {
             return (
-                <Box paddingY={'3rem'} marginLeft={'2rem'}>
-                    <Box display={'flex'}>
+                <Box paddingY={'3rem'}>
+                    <Box>
                         <Button
                             sx={{ color: 'black', border: "1px solid black" }}
                             // variant='outlined'
