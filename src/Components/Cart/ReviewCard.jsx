@@ -63,6 +63,9 @@ const ReviewCard = (props) => {
                 >
                 </Box>
                 <Typography m={'2%'} variant='caption'>
+                    {product.name}
+                </Typography>
+                <Typography m={'2%'} variant='caption'>
                     {product.desc}
                 </Typography>
                 <Box display={'flex'} m={'2%'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'end'}>
