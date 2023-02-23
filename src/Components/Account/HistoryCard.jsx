@@ -18,11 +18,11 @@ const HistoryCard = (props) => {
           <Typography paddingTop={'1rem'} variant='body2'>{props.order.dateTime}</Typography>
         </Box>
 
-        {props.delivered &&
+        {/* {props.delivered &&
           <Button>
             <AddIcon />
             Add to cart
-          </Button>}
+          </Button>} */}
       </Box>
     </Box>
   )
