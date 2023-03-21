@@ -7,6 +7,7 @@ import UserInfo from './UserInfo';
 import { useEffect, useState } from 'react';
 import OrderHistory from './OrderHistory';
 import api from '../../Api';
+import Footer from '../Footer';
 const Account = () => {
     const [rootUser, setrootUser] = useState()
     const navigation = useNavigate()
@@ -24,7 +25,7 @@ const Account = () => {
     return (
         <Box display={'flex'} flexDirection={'column'}>
             <Navbar />
-            <Box marginX={'10%'} marginTop={'2rem'}>
+            <Box marginX={'10%'} marginY={'2rem'}>
                 <Box borderBottom={'2px solid #a9927d'} display={'flex'} flexDirection={'row'}>
                     <Button onClick={() => {
                         navigation('/home')
@@ -39,6 +40,7 @@ const Account = () => {
                     <OrderHistory rootUser={rootUser} />
                 </Box>
             </Box>
+            <Footer/>
         </Box>
     )
 }

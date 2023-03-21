@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import { useEffect, useState } from 'react'
 import api from '../../Api'
+import Footer from '../Footer'
 const Cart = () => {
     const navigation = useNavigate()
     const [total, setTotal] = useState(0)
@@ -33,7 +34,7 @@ const Cart = () => {
         return (
             <Box display={'flex'} flexDirection={'column'}>
                 <Navbar />
-                <Box marginX={'10%'} marginTop={'2rem'}>
+                <Box marginX={'10%'} marginY={'2rem'}>
                     <Box borderBottom={'2px solid #a9927d'} display={'flex'} flexDirection={'row'}>
                         <Button onClick={() => {
                             navigation('/home')
@@ -54,6 +55,7 @@ const Cart = () => {
                         rootUserId={rootUser._id} />
                     </Box>
                 </Box>
+                <Footer/>
             </Box>
         )
     }

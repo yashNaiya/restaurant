@@ -1,10 +1,16 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Typography } from '@mui/material'
 import React from 'react'
 import api from '../../Api'
 import { useEffect, useState } from 'react'
 import dateTime from 'date-time'
+import { CloseCircle } from 'iconsax-react'
 const Summery = (props) => {
     const [flag, setFlag] = useState(false)
+    const [payment, setpayment] = useState(false)
+    const [paymentInfo, setpaymentInfo] = useState({
+        type: "",
+        info: ""
+    })
     const [instruction, setInstruction] = useState('')
     const handleOrder = () => {
         // console.log(props.rootUserId)
@@ -52,9 +58,9 @@ const Summery = (props) => {
     }, [props])
     return (
 
-        <Box display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} width={'30%'} height={'20rem'} marginLeft={'5rem'} p={'2rem'} borderRadius={'1rem'} border={'2px solid #a9927d'} >
+        <Box display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} width={'30%'} minHeight={'20rem'} marginLeft={'5rem'} p={'2rem'} borderRadius={'1rem'} border={'2px solid #a9927d'} >
             <Typography fontWeight={'bold'} borderBottom={'2px solid #a9927d'}>Order Summery</Typography>
-            <Box marginY={'1rem'} height={'40%'} display={'flex'} justifyContent={'space-evenly'} flexDirection={'column'}>
+            <Box marginY={'1rem'} display={'flex'} justifyContent={'space-evenly'} flexDirection={'column'}>
                 <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
                     <Typography>Sub Total</Typography>
                     <Typography>${props.total.toFixed(2)}</Typography>
@@ -69,7 +75,39 @@ const Summery = (props) => {
                 </Box>
             </Box>
             <TextField onChange={handleChange} name='instruction' value={instruction} label={'special instructions(optional)'}></TextField>
-            <Button fullWidth variant={'contained'} onClick={handleOrder}>place order</Button>
+            {payment ?
+                <Box display={'flex'} flexDirection='column' marginTop={'1rem'}>
+                    <Box flexDirection={'row'} display='flex' justifyContent={'space-between'} alignItems='center'>
+                        <Typography fontSize={'20px'}>Payment</Typography>
+                        <IconButton onClick={()=>setpayment(false)}><CloseCircle /></IconButton>
+                    </Box>
+                    <FormControl>
+                        <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            value={paymentInfo.type}
+                            name='type'
+                            onChange={(e) => { setpaymentInfo((prevState)=>({
+                                ...prevState,
+                                [e.target.name]:e.target.value
+                            })) 
+                            console.log(paymentInfo.type)
+                        }}
+                        >
+                            <FormControlLabel value="credit" control={<Radio />} label="credit" />
+                            <FormControlLabel value="debit" control={<Radio />} label="debit" />
+                        </RadioGroup>
+                    </FormControl>
+                    <TextField onChange={(e)=>{
+                        setpaymentInfo((prevState)=>({
+                            ...prevState,
+                            [e.target.name]:e.target.value
+                        }))
+                        console.log(paymentInfo)
+                    }} size='small' type={'tel'} value={paymentInfo.info} placeholder='number' name='info'></TextField>
+                    <Button sx={{marginTop:'1rem'}} variant='contained' onClick={handleOrder}>Make payment</Button>
+                </Box>
+                : <Button fullWidth variant={'contained'} onClick={() => { setpayment(true) }}>place order</Button>
+            }
         </Box>
     )
 

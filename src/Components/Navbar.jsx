@@ -70,6 +70,11 @@ const Navbar = () => {
                 }}>
                     Account
                 </Button>
+                <Button onClick={()=>{
+                    navigate('/about')
+                }}>
+                    About
+                </Button>
             </Box>
         </Box>
     )

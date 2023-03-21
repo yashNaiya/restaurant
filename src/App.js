@@ -6,6 +6,8 @@ import Home from "./Components/Home/Home"
 import Cart from "./Components/Cart/Cart";
 import Account from "./Components/Account/Account";
 import AdminMain from "./Components/Admin/AdminMain";
+import About from "./Components/About/About";
+import ContactPage from "./Components/ContactPage";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
       <Route path="/cart" element={<Cart/>}></Route>
       <Route path="/account" element={<Account/>}></Route>
       <Route path="/adminpage" element={<AdminMain/>}></Route>
+      <Route path="/about" element={<About/>}></Route>
+      <Route path="/contact" element={<ContactPage/>}></Route>
     </Routes>
   );
 }

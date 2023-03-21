@@ -9,3 +9,5 @@ npm install @mui/icons-material
 npm i jsonwebtoken
 npm i bcryptjs
 npm i cookie-parser
+npm i iconsax-react
+npm i nodemailer
