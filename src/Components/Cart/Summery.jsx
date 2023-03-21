@@ -18,6 +18,7 @@ const Summery = (props) => {
 
         api.post('/placeorder',
             {
+                paymentInfo:paymentInfo,
                 instruct: instruction,
                 rootUserId: props.rootUserId,
                 total: (props.total + props.gst).toFixed(2),
