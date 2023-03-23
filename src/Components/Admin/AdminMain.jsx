@@ -2,10 +2,11 @@ import { Box, ListItem, ListItemButton, ListItemText, Stack, Typography } from '
 import React from 'react'
 import { useState } from 'react'
 import Item from './Item'
+import Message from './Message'
 import Order from './Order'
 
 const AdminMain = () => {
-    const [onItems, setonItems] = useState(false)
+    const [onPage, setonPage] = useState(1)
     return (
         <Box>
             <Box paddingX={8} bgcolor={'secondary.main'} p={3} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
@@ -17,24 +18,33 @@ const AdminMain = () => {
                 <Stack direction={'row'} spacing={2} justifyContent={'space-between'}>
                     <Box bgcolor={'secondary.main'} flex={.3} minHeight={'100vh'} maxHeight={'100%'} paddingTop={'3rem'}>
                         <ListItem sx={{ paddingX: '0' }}>
-                            <ListItemButton onClick={() => { setonItems(false) }} sx={{ backgroundColor: "#f2f2f2" }}>
+                            <ListItemButton onClick={() => { setonPage(1) }} sx={{ backgroundColor: "#f2f2f2" }}>
                                 <ListItemText>items</ListItemText>
                             </ListItemButton>
                         </ListItem>
                         <ListItem sx={{ paddingX: '0' }}>
-                            <ListItemButton onClick={() => { setonItems(true) }} sx={{ backgroundColor: "#f2f2f2" }}>
+                            <ListItemButton onClick={() => { setonPage(2) }} sx={{ backgroundColor: "#f2f2f2" }}>
                                 <ListItemText>orders</ListItemText>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem sx={{ paddingX: '0' }}>
+                            <ListItemButton onClick={() => { setonPage(3) }} sx={{ backgroundColor: "#f2f2f2" }}>
+                                <ListItemText>messages</ListItemText>
                             </ListItemButton>
                         </ListItem>
                     </Box>
                     <Box flex={1.5}>
-                        {!onItems &&
+                        {onPage===1 &&
                             <Box>
-                                <Item/>
+                                <Item />
                             </Box>}
-                        {onItems &&
+                        {onPage===2 &&
                             <Box>
-                               <Order/>
+                                <Order />
+                            </Box>}
+                        {onPage===3 &&
+                            <Box>
+                                <Message />
                             </Box>}
                     </Box>
                 </Stack>

@@ -5,17 +5,18 @@ import AddIcon from '@mui/icons-material/Add';
 const HistoryCard = (props) => {
   console.log(props.order.order)
   return (
-    <Box paddingY={'1rem'} borderBottom={'2px solid #a9927d'} minHeight={'8rem'} display={'flex'} justifyContent={'space-between'} flexDirection={'column'}>
-      <Box display={'flex'} justifyContent={'flex-start'} flexDirection='row'>
+    <Box borderRadius={'1rem'} p={'1rem'} marginY={'1rem'} bgcolor='#fff'  minHeight={'8rem'} display={'flex'} justifyContent={'space-between'} flexDirection={'column'}>
+      <Box display={'flex'} justifyContent={'flex-start'} flexDirection='column'>
       {props.order.order.map(item => {
         return (
-          <Typography>+ {item.count} {item.name}</Typography>
+          <Typography>{item.count} x {item.name}</Typography>
         )
       })}
       </Box>
       <Box display={'flex'} width={'100%'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
-        <Box width={'40%'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
+        <Box width={'100%'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
           <Typography paddingTop={'1rem'} variant='body2'>{props.order.dateTime}</Typography>
+          <Typography fontWeight={'bold'}>Total Value : {props.order.total}</Typography>
         </Box>
 
         {/* {props.delivered &&

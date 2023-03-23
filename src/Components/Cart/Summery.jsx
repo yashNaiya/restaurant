@@ -8,17 +8,19 @@ const Summery = (props) => {
     const [flag, setFlag] = useState(false)
     const [payment, setpayment] = useState(false)
     const [paymentInfo, setpaymentInfo] = useState({
-        type: "",
-        info: ""
+        type: "cash",
+        info: "",
+        cvv: "",
+        expires: ""
     })
     const [instruction, setInstruction] = useState('')
     const handleOrder = () => {
         // console.log(props.rootUserId)
-        // console.log(dateTime())
+        // console.log(paymentInfo)
 
         api.post('/placeorder',
             {
-                paymentInfo:paymentInfo,
+                paymentInfo: paymentInfo,
                 instruct: instruction,
                 rootUserId: props.rootUserId,
                 total: (props.total + props.gst).toFixed(2),
@@ -80,32 +82,61 @@ const Summery = (props) => {
                 <Box display={'flex'} flexDirection='column' marginTop={'1rem'}>
                     <Box flexDirection={'row'} display='flex' justifyContent={'space-between'} alignItems='center'>
                         <Typography fontSize={'20px'}>Payment</Typography>
-                        <IconButton onClick={()=>setpayment(false)}><CloseCircle /></IconButton>
+                        <IconButton onClick={() => setpayment(false)}><CloseCircle /></IconButton>
                     </Box>
                     <FormControl>
                         <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label"
                             value={paymentInfo.type}
                             name='type'
-                            onChange={(e) => { setpaymentInfo((prevState)=>({
-                                ...prevState,
-                                [e.target.name]:e.target.value
-                            })) 
-                            console.log(paymentInfo.type)
-                        }}
+                            onChange={(e) => {
+                                setpaymentInfo((prevState) => ({
+                                    ...prevState,
+                                    [e.target.name]: e.target.value
+                                }))
+                                console.log(paymentInfo.type)
+                            }}
                         >
                             <FormControlLabel value="credit" control={<Radio />} label="credit" />
                             <FormControlLabel value="debit" control={<Radio />} label="debit" />
+                            <FormControlLabel defaultChecked value="cash" control={<Radio />} label="cash" />
                         </RadioGroup>
                     </FormControl>
-                    <TextField onChange={(e)=>{
-                        setpaymentInfo((prevState)=>({
-                            ...prevState,
-                            [e.target.name]:e.target.value
-                        }))
-                        console.log(paymentInfo)
-                    }} size='small' type={'tel'} value={paymentInfo.info} placeholder='number' name='info'></TextField>
-                    <Button sx={{marginTop:'1rem'}} variant='contained' onClick={handleOrder}>Make payment</Button>
+                    {!(paymentInfo.type === "cash") && <Box>
+                        <TextField
+                            onChange={(e) => {
+                                setpaymentInfo((prevState) => ({
+                                    ...prevState,
+                                    [e.target.name]: e.target.value
+                                }))
+                            }}
+                            helperText='enter 16 digit number'
+                            size='small' type={'tel'} value={paymentInfo.info} label='number' name='info'></TextField>
+                        <TextField
+                            onChange={(e) => {
+                                setpaymentInfo((prevState) => ({
+                                    ...prevState,
+                                    [e.target.name]: e.target.value
+                                }))
+                            }}
+                            size='small' type={'tel'} name='cvv' value={paymentInfo.cvv} inputProps={{ maxLength: 3 }} sx={{ width: "100px" }} label='cvv'></TextField>
+                        <Box>
+                            <TextField sx={{ marginTop: '1rem' }}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onChange={(e) => {
+                                    setpaymentInfo((prevState) => ({
+                                        ...prevState,
+                                        [e.target.name]: e.target.value
+                                    }))
+                                }}
+                                size='small' value={paymentInfo.expires} name='expires' type={'month'} label='expires on'></TextField>
+                        </Box>
+                    </Box>
+                    }
+                    {((paymentInfo.info.length === 16 && paymentInfo.cvv.length===3 && !(paymentInfo.expires==="")) || paymentInfo.type === "cash") && <Button inputProps={{ maxLength: 16 }} sx={{ marginTop: '1rem' }} variant='contained' onClick={handleOrder}>Make payment</Button>
+                        || <Button disabled sx={{ marginTop: '1rem' }} variant='contained'>make payment</Button>}
                 </Box>
                 : <Button fullWidth variant={'contained'} onClick={() => { setpayment(true) }}>place order</Button>
             }

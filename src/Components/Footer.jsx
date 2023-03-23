@@ -6,7 +6,7 @@ const Footer = () => {
     const navigate = useNavigate()
     return (
         <Box display={'flex'} justifyContent='space-evenly'
-            flexDirection={'row'} height={'15rem'} bgcolor={'#37474F'}
+            flexDirection={'row'} height={'12rem'} bgcolor={'#37474F'}
             alignItems='center'
             width={'100%'}>
             <Box color={'#fff'}>

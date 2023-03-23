@@ -20,15 +20,18 @@ const OrderHistory = (props) => {
 
   if (pastOrder) {
     return (
-      <Box width={'70%'} paddingLeft={'2rem'}>
-        <Typography borderBottom={'3px solid #a9927d'} variant={'h6'}  color={'secondary.main'}>Live Orders</Typography>
+      <Box width={'70%'} borderRadius='1rem' bgcolor='primary.main' paddingX={'1rem'} paddingY={'1rem'} marginX={'2rem'}>
+        <Box borderRadius={'.3rem'} paddingLeft={'2rem'} bgcolor='secondary.main'>
+          <Typography variant={'h6'} color={'#fff'}>Live Orders</Typography>
+        </Box>
         {liveOrder.map(order => {
           return (
             <HistoryCard key={order._id} order={order} delivered={false} />
           )
         })}
-
-        <Typography marginTop={'3rem'} borderBottom={'3px solid #a9927d'} variant={'h6'}  color={'secondary.main'}>Order History</Typography>
+        <Box borderRadius={'.3rem'} paddingLeft={'2rem'} bgcolor={'secondary.main'}>
+          <Typography  marginTop={'2rem'} variant={'h6'} color={'#fff'}>Order History</Typography>
+        </Box>
         {pastOrder.map(order => {
           return (
             <HistoryCard key={order._id} order={order} delivered={true} />

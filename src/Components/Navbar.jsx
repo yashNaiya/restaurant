@@ -56,6 +56,11 @@ const Navbar = () => {
                     <MenuItem onClick={handleKitchener}>Kitchener</MenuItem>
                 </Menu>
                 <Button onClick={()=>{
+                    navigate('/about')
+                }}>
+                    About
+                </Button>
+                <Button onClick={()=>{
                     navigate('/home')
                 }}>
                     offers
@@ -70,11 +75,7 @@ const Navbar = () => {
                 }}>
                     Account
                 </Button>
-                <Button onClick={()=>{
-                    navigate('/about')
-                }}>
-                    About
-                </Button>
+               
             </Box>
         </Box>
     )
