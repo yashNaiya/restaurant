@@ -12,9 +12,9 @@ const Footer = () => {
             <Box color={'#fff'}>
                 <Typography variant='body1' fontSize={'20px'}>Address:</Typography>
                 <Typography>
-                    259 Queen St W, Toronto, ON Canada M5V1Z4
+                    123 Main Street, in the heart of downtown Toronto
                 </Typography>
-                Tel: 416-519-2550
+                Tel: (416) 555-1234
             </Box>
             <Box display='flex' flexDirection={'column'}>
                 <Box>
@@ -22,10 +22,10 @@ const Footer = () => {
                     <IconButton sx={{ color: '#fff' }}><Facebook /></IconButton>
                     <IconButton sx={{ color: '#fff' }}><Map /></IconButton>
                 </Box>
-                <IconButton onClick={()=>{navigate('/about')}} sx={{ color: '#fff' }}>Know More<ArrowRight3/></IconButton>
+                <IconButton onClick={() => { navigate('/about') }} sx={{ color: '#fff' }}>Know More<ArrowRight3 /></IconButton>
             </Box>
             <Box>
-                <Button onClick={()=>{window.open('/contact','_blank')}} variant='contained'>Contact us</Button>
+                <Button onClick={() => { window.open('/contact', '_blank') }} variant='contained'>Contact us</Button>
             </Box>
         </Box>
     )
