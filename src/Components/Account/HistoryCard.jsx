@@ -9,14 +9,14 @@ const HistoryCard = (props) => {
       <Box display={'flex'} justifyContent={'flex-start'} flexDirection='column'>
       {props.order.order.map(item => {
         return (
-          <Typography>{item.count} x {item.name}</Typography>
+          <Typography>{item.count} x <b>{item.name}</b></Typography>
         )
       })}
       </Box>
       <Box display={'flex'} width={'100%'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
         <Box width={'100%'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}>
           <Typography paddingTop={'1rem'} variant='body2'>{props.order.dateTime}</Typography>
-          <Typography fontWeight={'bold'}>Total Value : {props.order.total}</Typography>
+          <Typography fontSize={'18px'} fontWeight={'bold'}>Total Value : {props.order.total}</Typography>
         </Box>
 
         {/* {props.delivered &&

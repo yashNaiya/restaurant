@@ -32,7 +32,7 @@ const ContactPage = () => {
 
         return (
             <Box paddingTop={'3rem'} display={'flex'} flexDirection='column' alignItems='center' justifyContent={'space-around'}>
-                <Typography fontSize={'24px'}>Contact Us</Typography>
+                <Typography fontWeight={'bold'} fontSize={'24px'}>Help Request</Typography>
                 <Box marginTop={'3rem'} bgcolor='#37474F' display={'flex'}
                     borderRadius='2rem'
                     flexDirection='column'
