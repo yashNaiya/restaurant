@@ -7,6 +7,7 @@ import api from '../../Api';
 import useDidMountEffect from '../../DidMount';
 
 const Card = (props) => {
+    const SERVER_HOST = process.env.REACT_APP_API_ENDPOINT + '/images/'
 
     const [counter, setCounter] = useState(0)
     const handleAddtocart = () => {
@@ -51,9 +52,10 @@ const Card = (props) => {
                         minHeight={'50%'}
                         sx={{
                             ":hover": { cursor: 'pointer', opacity: '.7' },
-                            backgroundImage: `url(${props.image})`,
+                            backgroundImage: `url(${SERVER_HOST + props.item.image})`,
                             backgroundSize: "cover",
                             backgroundPosition: 'center'
+
                         }}
                     >
                     </Box>

@@ -10,6 +10,7 @@ import Footer from '../Footer'
 const Home = () => {
 
   const [rootUser, setrootUser] = useState()
+  const [restaurant, setrestaurant] = useState('restaurant')
   const navigate = useNavigate()
   const callHomePage = ()=>{
 
@@ -27,8 +28,8 @@ const Home = () => {
   if(rootUser){
     return (
       <Box display={'flex'} flexDirection={'column'}>
-        <Navbar />
-        <Menu rootUserId = {rootUser._id}/>
+        <Navbar setrestaurant={setrestaurant} />
+        <Menu restaurant={restaurant} rootUserId = {rootUser._id}/>
         <Footer/>
       </Box>
     )

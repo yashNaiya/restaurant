@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, TextField, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
@@ -8,7 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { PhotoCamera, PictureInPictureRounded } from '@mui/icons-material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import EditIcon from '@mui/icons-material/Edit';
-
+import Localimage from '../../Assets/pizza.jpg'
+import { Add, CloseCircle } from 'iconsax-react';
 const Item = () => {
     const SERVER_HOST = process.env.REACT_APP_API_ENDPOINT + '/images/'
 
@@ -28,6 +29,15 @@ const Item = () => {
         desc: '',
         image: null
     })
+    const [sizeprice, setsizeprice] = useState({
+        small: 0,
+        medium:0,
+        large: 0
+    })
+    const [sizeselect, setsizeselect] = useState({
+        small: false,
+        large: false
+    })
     const [flag, setflag] = useState(false)
     const [editItemBox, seteditItemBox] = useState(false)
     const [editCity, seteditCity] = useState('')
@@ -40,6 +50,7 @@ const Item = () => {
     const [addCategoryBox, setaddCategoryBox] = useState(false)
     const [addCityBox, setaddCityBox] = useState(false)
     const [display, setdisplay] = useState(true)
+    const [toppingList, settoppingList] = useState([])
     const [items, setitems] = useState()
     const [citylist, setcitylist] = useState()
     const [categorylist, setcategorylist] = useState()
@@ -57,6 +68,10 @@ const Item = () => {
         api.post('/readrestaurant')
             .then(res => { setcitylist(res.data); if (citylist) { setcity(citylist[0]) } })
             .catch(err => { console.log(err) })
+
+        api.post('/readproduct', { city: city, category: category })
+            .then(res => { setitems(res.data) })
+            .catch(err => { console.log(err) })
     }, [])
     useEffect(() => {
         api.post('/readproduct', { city: city, category: category })
@@ -71,6 +86,26 @@ const Item = () => {
             [e.target.name]: [e.target.value]
         }))
         // console.log(itemData)
+    }
+
+    const handleToppingAdd = () => {
+        settoppingList([...toppingList,
+        {
+            name: '',
+            price: '',
+        }])
+    }
+    const handleToppingsRemove = (index) => {
+        const list = [...toppingList]
+        list.splice(index, 1)
+        settoppingList(list)
+    }
+
+    const handleToppingsChange = (e, index) => {
+        const { name, value } = e.target
+        const list = [...toppingList]
+        list[index][name] = value
+        settoppingList(list)
     }
 
     const handlefileChange = async (e) => {
@@ -118,7 +153,14 @@ const Item = () => {
         seteditItemBox(!editItemBox)
         seteditItem(data)
     }
+    useEffect(() => {
+        if (itemData.price) {
+            setsizeprice((prevstate) => ({ ...prevstate, medium: itemData.price.toString() }))
+        }
+    }, [itemData.price])
+    
     const handleItemSubmit = () => {
+       
         setitemData({ category: category, restaurant: city })
         if (itemData.name && itemData.price && itemData.desc && image) {
 
@@ -126,32 +168,42 @@ const Item = () => {
             formdata.append('name', itemData.name)
             formdata.append('price', itemData.price)
             formdata.append('desc', itemData.desc)
-            formdata.append('city', city)
+            formdata.append('city', city.toString())
             formdata.append('category', category)
             formdata.append('image', image)
-            setitemData({
-                category: '',
-                restaurant: '',
-                name: '',
-                price: '',
-                desc: '',
-            })
+            // console.log(formdata)
+            // setitemData({
+            //     category: '',
+            //     restaurant: '',
+            //     name: '',
+            //     price: '',
+            //     desc: '',
+            // })
             api.post("/addproduct", formdata)
-                .then(res => alert(res.data.message))
+                .then(res => {
+                    api.post('/addproduct2', { sizeprice: sizeprice, toppingList: toppingList, product: res.data })
+                        .then(res => {
+                            alert(res.data.message)
+                        })
+                })
                 .catch(err => { alert("something went wrong!!") })
         } else {
-            alert("fill out the details")
-            setitemData({
-                category: '',
-                restaurant: '',
-                name: '',
-                price: '',
-                desc: '',
-            })
+            // alert("fill out the details")
+            // setitemData({
+            //     category: '',
+            //     restaurant: '',
+            //     name: '',
+            //     price: '',
+            //     desc: '',
+            // })
+               console.log(toppingList)
+               console.log(sizeprice)
+              console.log(itemData.price)
+
         }
 
     }
-
+    // console.log(sizeprice)
     if (citylist && categorylist && items) {
         if (display) {
             return (
@@ -242,21 +294,65 @@ const Item = () => {
                             alignItems={'center'} flexDirection={'column'}
                             justifyContent={'space-around'}
                             borderRadius={5}
-                            backgroundColor={'#d3d3d3'} width={'40%'}
-                            marginX={'auto'} height={'50vh'}>
+                            backgroundColor={'#d3d3d3'} width={'60%'}
+                            marginX={'auto'} minHeight={'100vh'}>
                             <Box width={'100%'} display={'flex'} flexDirection={'row'} justifyContent={'right'} >
                                 <Button onClick={handleAddItem}>
                                     <CloseRoundedIcon />
                                 </Button>
                             </Box>
-                            <IconButton component="label">
-                                <input hidden name='image' accept='image/*' onChange={handlefileChange} value={itemData.image} type="file" />
-                                <PhotoCamera />
-                            </IconButton>
-                            <TextField variant='outlined' autoComplete='off' size='small' name='name' onChange={handleChange} value={itemData.name} label={'name'}></TextField>
-                            <TextField variant='outlined' autoComplete='off' size='small' name='price' onChange={handleChange} value={itemData.price} label={'price'}></TextField>
+                            <Box overflow={'hidden'} border='1px solid black' borderRadius={'50%'}>
+                                <IconButton component="label">
+                                    <input hidden name='image' accept='image/*' onChange={handlefileChange} value={itemData.image} type="file" />
+                                    <img src={Localimage} position='center' alt='image' width={'100px'} height={'100px'} />
+                                </IconButton>
+                            </Box>
+                            <Box paddingY='1rem'>
+                                <TextField variant='outlined' autoComplete='off' size='small' name='name' onChange={handleChange} value={itemData.name} label={'name'}></TextField>
+                            </Box>
+                            <Box paddingY='1rem'>
+                                <TextField variant='outlined' autoComplete='off' size='small' name='price' onChange={handleChange} value={itemData.price} label={'price'}></TextField>
+                            </Box>
+                            <Box borderBottom={'1px solid #a9927d'} paddingY='1rem'>
+                                <Typography marginBottom={'1rem'}>Select Prize For Size</Typography>
+                                <Box marginBottom={'.5rem'}>
+                                    <Box display='flex' flexDirection={'row'}>
+                                        <Typography>Small :</Typography>
+                                        <Checkbox checked={sizeselect.small} onChange={() => { setsizeselect((prevstate) => ({ ...prevstate, small: !(sizeselect.small) })) }} sx={{ padding: 0, margin: 0 }} />
+                                    </Box>
+                                    {sizeselect.small && <TextField value={sizeprice.small} onChange={(e) => { setsizeprice((prevstate) => ({ ...prevstate, small: e.target.value })) }} label='price' size='small'></TextField>}
+                                </Box>
+                                <Box marginBottom={'.5rem'}>
+                                    <Typography>Medium :</Typography>
+                                    <TextField value={itemData.price} disabled size='small'></TextField>
+                                </Box>
+                                <Box marginBottom={'.5rem'}>
+                                    <Box display='flex' flexDirection={'row'}>
+                                        <Typography>Large :</Typography>
+                                        <Checkbox checked={sizeselect.large} onChange={() => { setsizeselect((prevstate) => ({ ...prevstate, large: !(sizeselect.large) })) }} sx={{ padding: 0, margin: 0 }} />
+                                    </Box>
+                                    {sizeselect.large && <TextField value={sizeprice.large} onChange={(e) => { setsizeprice((prevstate) => ({ ...prevstate, large: e.target.value })) }} label='price' size='small'></TextField>}
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Typography marginTop={'2rem'} sx={{ marginBottom: '1rem' }}>Toppings</Typography>
+                                <Box >
+                                    {
+                                        toppingList.map((topping, index) => (
+                                            <Box key={index} marginRight={'1rem'} marginBottom={'1rem'} display='flex' bgcolor={'grey.main'} paddingX='1rem' paddingBottom={'1rem'} borderRadius={'.5rem'} flexDirection='column'>
+                                                <Box onClick={() => handleToppingsRemove(index)} textAlign={'right'}><IconButton><CloseCircle /></IconButton></Box>
+                                                <TextField variant='standard' onChange={(e) => { handleToppingsChange(e, index) }} value={topping.name} sx={{ marginBottom: '1rem' }} label='name' name='name'></TextField>
+                                                <TextField variant='standard' onChange={(e) => { handleToppingsChange(e, index) }} type={'number'} value={topping.price} sx={{ marginBottom: '1rem' }} label='price' name='price'></TextField>
+                                            </Box>
+                                        ))
+                                    }
+                                </Box>
+                                <Button onClick={handleToppingAdd} sx={{ justifyContent: 'left', marginBottom: '1rem' }}><Add />Add</Button>
+                            </Box>
                             <TextField variant='outlined' autoComplete='off' size='small' name='desc' onChange={handleChange} value={itemData.desc} label={'description'}></TextField>
-                            <Button onClick={handleItemSubmit} variant='contained'>Add</Button>
+                            <Box marginY='1rem'>
+                                <Button onClick={handleItemSubmit} variant='contained'>Add</Button>
+                            </Box>
                         </Box>
                     </form>
                 )

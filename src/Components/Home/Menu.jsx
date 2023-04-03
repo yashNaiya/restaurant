@@ -14,6 +14,7 @@ const Menu = (props) => {
     const [open, setOpen] = React.useState(false);
     const [products, setproducts] = useState()
     const [pizzas, setpizzas] = useState(0)
+    const [loading, setloading] = useState(false)
     let pizzasTemp = []
     const [burgers, setburgers] = useState()
     let burgersTemp = []
@@ -21,11 +22,24 @@ const Menu = (props) => {
         setOpen(!open);
     };
     const getproducts = () => {
-        api.get('/getproducts')
+        console.log("hi")
+        // setloading(true)
+
+
+        api.post('/readproduct', { category: 'category', city: props.restaurant })
             .then(res => {
                 setproducts(res.data)
+
             })
+
+
+
+        // setloading(false)
+    }
+    useEffect(() => {
+
         if (products) {
+            // console.log(pizzasTemp)
             pizzasTemp = products.filter(product => {
                 return (
                     product.category === 'pizza'
@@ -37,17 +51,24 @@ const Menu = (props) => {
                 )
             })
         }
-    }
+        setpizzas(pizzasTemp)
+        setburgers(burgersTemp)
+
+    }, [products])
     useEffect(() => {
         getproducts()
-        if (pizzasTemp && burgersTemp) {
-            setpizzas(pizzasTemp)
-            setburgers(burgersTemp)
-            // console.log(pizzas)
-        }
-    }, [products])
+        // console.log('in useeffect')
+
+    }, [props.restaurant])
+    useEffect(() => {
+        getproducts()
+
+    }, [])
+
+
 
     if (pizzas && burgers) {
+
         return (
             <Box
                 maxWidth={'60%'}
@@ -79,6 +100,7 @@ const Menu = (props) => {
                                     <ListItemText primary="Burger" />
                                 </ListItemButton>
                             </Link>
+
                         </List>
                     </Collapse>
                 </Box>
@@ -94,11 +116,12 @@ const Menu = (props) => {
                     flexWrap={'wrap'}
                     justifyContent={'space-evenly'}
                 >
-                    {pizzas.map(pizza => {
-                        return (
-                            <Card rootUserId={props.rootUserId} key={pizza._id} image={image} item={pizza} />
-                        )
-                    })}
+                    {pizzas.map(pizza => (
+                        <Card rootUserId={props.rootUserId} key={pizza._id} image={image} item={pizza} />
+                    )
+
+
+                    )}
                 </Box>
                 <Box
                     id={'burger'}
@@ -112,20 +135,16 @@ const Menu = (props) => {
                     flexWrap={'wrap'}
                     justifyContent={'space-evenly'}
                 >
-                    {burgers.map(burg => {
-                        return (
-                            <Card rootUserId={props.rootUserId} key={burg._id} image={burger} item={burg} />
-                        )
-                    })}
-                </Box>
+                    {burgers.map(burg =>
 
+                        <Card rootUserId={props.rootUserId} key={burg._id} image={burger} item={burg} />
+
+                    )}
+                </Box>
             </Box>
         )
-    } else {
-        return (
-            <Typography>Loading...</Typography>
-        )
     }
+
 }
 
 export default Menu
