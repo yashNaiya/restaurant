@@ -34,7 +34,7 @@ const OrderHistory = (props) => {
         </Box>
         {pastOrder.map(order => {
           return (
-            <HistoryCard key={order._id} order={order} delivered={true} />
+            <HistoryCard key={order._id} rootUserId={props.rootUser._id} order={order} delivered={true} />
           )
         })}
       </Box>

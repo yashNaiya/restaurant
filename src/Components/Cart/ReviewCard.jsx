@@ -11,6 +11,8 @@ import useDidMountEffect from '../../DidMount';
 import { ArrowDown3 } from 'iconsax-react';
 
 const ReviewCard = (props) => {
+    const SERVER_HOST = process.env.REACT_APP_API_ENDPOINT + '/images/'
+
     const [product, setProduct] = useState()
     const [show, setshow] = useState(false)
     const [count, setCount] = useState(0)
@@ -64,7 +66,7 @@ const ReviewCard = (props) => {
 
 
     if (product && !(count === 0)) {
-        console.log(product.size.small)
+        // console.log(product.size.small)
         // const baseprice = product.price
         
         return (
@@ -77,7 +79,7 @@ const ReviewCard = (props) => {
                         minWidth={'30%'}
                         width={'30%'}
                         sx={{
-                            backgroundImage: `url(${image})`,
+                            backgroundImage: `url(${SERVER_HOST+product.image})`,
                             backgroundSize: "cover",
                             backgroundPosition: 'center'
                         }}
@@ -99,7 +101,7 @@ const ReviewCard = (props) => {
                                 sx={{ minHeight: 0, minWidth: 0, padding: 0, color: '#fff' }}>
                                 <RemoveIcon />
                             </Button>
-                            <Typography>{count}</Typography>
+                            <Typography>{Number(count)}</Typography>
                             <Button
                                 onClick={() => {
                                     setCount(count + 1)

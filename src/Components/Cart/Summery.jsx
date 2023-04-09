@@ -1,29 +1,37 @@
-import { Box, Button, FormControl, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControl, FormControlLabel, IconButton, Radio, RadioGroup, TextField, Typography } from '@mui/material'
 import React from 'react'
 import api from '../../Api'
 import { useEffect, useState } from 'react'
 import dateTime from 'date-time'
 import { CloseCircle } from 'iconsax-react'
+import GooglePayButton from '@google-pay/button-react';
 const Summery = (props) => {
     const [flag, setFlag] = useState(false)
     const [payment, setpayment] = useState(false)
+    const [offers, setoffers] = useState()
+    const [code, setcode] = useState('')
+    const [newTotal, setnewTotal] = useState(0)
     const [paymentInfo, setpaymentInfo] = useState({
         type: "cash",
         info: "",
         cvv: "",
         expires: ""
     })
+    const [addpc, setaddpc] = useState(false)
     const [instruction, setInstruction] = useState('')
     const handleOrder = () => {
         // console.log(props.rootUserId)
         // console.log(paymentInfo)
-
+        let total = (props.total + props.gst).toFixed(2)
+        if(newTotal!==0){
+            total = newTotal
+        }
         api.post('/placeorder',
             {
                 paymentInfo: paymentInfo,
                 instruct: instruction,
                 rootUserId: props.rootUserId,
-                total: (props.total + props.gst).toFixed(2),
+                total: total,
                 dateTime: dateTime()
             })
             .then(res => {
@@ -59,9 +67,33 @@ const Summery = (props) => {
             setFlag(false)
         }
     }, [props])
+    useEffect(() => {
+        api.get('/offers')
+            .then(res => setoffers(res.data))
+    }, [])
+    const checkCode = ()=>{
+        let offerTemp = ''
+        // flag=0
+        offers.forEach((offer,index) => {
+            console.log(code)
+            console.log(offer.coupon)
+            if(code === offer.coupon){
+                offerTemp=offer
+                offers.slice(index,1)
+            }
+        });
+        // if(flag===1){
+            if(offerTemp!==''){
+                console.log(offerTemp)
+                const newVal = (((props.total+props.gst)*Number(100 - offerTemp.percentage))/100).toFixed(2)
+                setnewTotal(newVal)
+            }
+        // }
+    }
+
     return (
 
-        <Box display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} width={'30%'} minHeight={'20rem'} marginLeft={'5rem'} p={'2rem'} borderRadius={'1rem'} border={'2px solid #a9927d'} >
+        <Box display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} width={'30%'} minHeight={'25rem'} maxHeight='fit-content' marginLeft={'5rem'} p={'2rem'} borderRadius={'1rem'} border={'2px solid #a9927d'} >
             <Typography fontWeight={'bold'} borderBottom={'2px solid #a9927d'}>Order Summery</Typography>
             <Box marginY={'1rem'} display={'flex'} justifyContent={'space-evenly'} flexDirection={'column'}>
                 <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
@@ -76,8 +108,19 @@ const Summery = (props) => {
                     <Typography fontWeight={'bold'}>Total</Typography>
                     <Typography fontWeight={'bold'} color={'third.main'}>${(props.total + props.gst).toFixed(2)}</Typography>
                 </Box>
+                <Box  marginTop={'1rem'} display={'flex'} flexDirection={'row'} alignItems='center'>
+                    <Checkbox onChange={(e)=>{if(e.target.checked){setaddpc(true)}else{setaddpc(false)}}}></Checkbox>
+                    <Typography>Add Promo Code</Typography>
+                </Box>
+                {addpc && <Box marginTop={'1rem'}  display={'flex'} flexDirection={'row'} alignItems='center'>
+                    <TextField onChange={(e)=>{setcode(e.target.value); console.log(e.target.value)}} label='code' size='small'></TextField>
+                    <Button onClick={checkCode}>Apply</Button>
+                </Box>}
             </Box>
-            <TextField onChange={handleChange} name='instruction' value={instruction} label={'special instructions(optional)'}></TextField>
+            {newTotal !== 0 &&
+            <Typography fontWeight={'bold'} color={'third.main'}>New Total : {newTotal}</Typography>
+            }
+            <TextField marginTop={'1rem'} onChange={handleChange} name='instruction' value={instruction} label={'special instructions(optional)'}></TextField>
             {payment ?
                 <Box display={'flex'} flexDirection='column' marginTop={'1rem'}>
                     <Box flexDirection={'row'} display='flex' justifyContent={'space-between'} alignItems='center'>
@@ -97,12 +140,13 @@ const Summery = (props) => {
                                 console.log(paymentInfo.type)
                             }}
                         >
-                            <FormControlLabel value="credit" control={<Radio />} label="credit" />
-                            <FormControlLabel value="debit" control={<Radio />} label="debit" />
+                            {/* <FormControlLabel value="credit" control={<Radio />} label="credit" />
+                            <FormControlLabel value="debit" control={<Radio />} label="debit" /> */}
                             <FormControlLabel defaultChecked value="cash" control={<Radio />} label="cash" />
+                            <FormControlLabel defaultChecked value="gpay" control={<Radio />} label="gpay" />
                         </RadioGroup>
                     </FormControl>
-                    {!(paymentInfo.type === "cash") && <Box>
+                    {!(paymentInfo.type === "cash" || paymentInfo.type === "gpay") && <Box>
                         <TextField
                             onChange={(e) => {
                                 setpaymentInfo((prevState) => ({
@@ -135,12 +179,122 @@ const Summery = (props) => {
                         </Box>
                     </Box>
                     }
-                    {((paymentInfo.info.length === 16 && paymentInfo.cvv.length===3 && !(paymentInfo.expires==="")) || paymentInfo.type === "cash") && <Button inputProps={{ maxLength: 16 }} sx={{ marginTop: '1rem' }} variant='contained' onClick={handleOrder}>Make payment</Button>
-                        || <Button disabled sx={{ marginTop: '1rem' }} variant='contained'>make payment</Button>}
+                    {((paymentInfo.info.length === 16 && paymentInfo.cvv.length === 3 && !(paymentInfo.expires === "")) || paymentInfo.type === "cash") && <Button inputProps={{ maxLength: 16 }} sx={{ marginTop: '1rem' }} variant='contained' onClick={handleOrder}>Place Order</Button>
+                        || ((paymentInfo.type === "gpay") && newTotal === 0 &&
+                            <GooglePayButton
+                                environment="TEST"
+                                paymentRequest={{
+                                    apiVersion: 2,
+                                    apiVersionMinor: 0,
+                                    allowedPaymentMethods: [
+                                        {
+                                            type: 'CARD',
+                                            parameters: {
+                                                allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                                                allowedCardNetworks: ['MASTERCARD', 'VISA'],
+                                            },
+                                            tokenizationSpecification: {
+                                                type: 'PAYMENT_GATEWAY',
+                                                parameters: {
+                                                    gateway: 'example',
+                                                    gatewayMerchantId: 'exampleGatewayMerchantId',
+                                                },
+                                            },
+                                        },
+                                    ],
+                                    merchantInfo: {
+                                        merchantId: '12345678901234567890',
+                                        merchantName: 'Demo Merchant',
+                                    },
+                                    transactionInfo: {
+                                        totalPriceStatus: 'FINAL',
+                                        totalPriceLabel: 'Total',
+                                        totalPrice: `${(props.total + props.gst).toFixed(2)}`,
+                                        currencyCode: 'CAD',
+                                        countryCode: 'CA',
+                                    },
+                                    shippingAddressRequired: true,
+                                    callbackIntents: ['SHIPPING_ADDRESS', 'PAYMENT_AUTHORIZATION'],
+                                }}
+                                onLoadPaymentData={paymentRequest => {
+                                    console.log('Success', paymentRequest);
+                                }}
+                                onPaymentAuthorized={paymentData => {
+                                    console.log('Payment Authorised Success', paymentData)
+                                    return { transactionState: 'SUCCESS' }
+                                }
+                                }
+                                onPaymentDataChanged={paymentData => {
+                                    console.log('On Payment Data Changed', paymentData)
+                                    return {}
+                                }
+                                }
+                                existingPaymentMethodRequired='false'
+                                // buttonColor='primary.main'
+                                buttonType='Buy'
+                            />
+                        )
+                        || ((paymentInfo.type === "gpay") && newTotal !== 0 &&
+                        <GooglePayButton
+                        environment="TEST"
+                        paymentRequest={{
+                            apiVersion: 2,
+                            apiVersionMinor: 0,
+                            allowedPaymentMethods: [
+                                {
+                                    type: 'CARD',
+                                    parameters: {
+                                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                                        allowedCardNetworks: ['MASTERCARD', 'VISA'],
+                                    },
+                                    tokenizationSpecification: {
+                                        type: 'PAYMENT_GATEWAY',
+                                        parameters: {
+                                            gateway: 'example',
+                                            gatewayMerchantId: 'exampleGatewayMerchantId',
+                                        },
+                                    },
+                                },
+                            ],
+                            merchantInfo: {
+                                merchantId: '12345678901234567890',
+                                merchantName: 'Demo Merchant',
+                            },
+                            transactionInfo: {
+                                totalPriceStatus: 'FINAL',
+                                totalPriceLabel: 'Total',
+                                totalPrice: `${newTotal}`,
+                                currencyCode: 'CAD',
+                                countryCode: 'CA',
+                            },
+                            shippingAddressRequired: true,
+                            callbackIntents: ['SHIPPING_ADDRESS', 'PAYMENT_AUTHORIZATION'],
+                        }}
+                        onLoadPaymentData={paymentRequest => {
+                            console.log('Success', paymentRequest);
+                        }}
+                        onPaymentAuthorized={paymentData => {
+                            console.log('Payment Authorised Success', paymentData)
+                            return { transactionState: 'SUCCESS' }
+                        }
+                        }
+                        onPaymentDataChanged={paymentData => {
+                            console.log('On Payment Data Changed', paymentData)
+                            return {}
+                        }
+                        }
+                        existingPaymentMethodRequired='false'
+                        // buttonColor='primary.main'
+                        buttonType='Buy'
+                    />
+                )
+
+                        || < Button disabled sx={{ marginTop: '1rem' }} variant='contained'>Make Payment</Button>}
                 </Box>
-                : <Button fullWidth variant={'contained'} onClick={() => { setpayment(true) }}>place order</Button>
+                :
+                <Button fullWidth variant={'contained'} onClick={() => { setpayment(true) }}>Make Payment</Button>
             }
-        </Box>
+        </Box >
     )
 
 }

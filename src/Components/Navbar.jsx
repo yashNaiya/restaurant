@@ -70,7 +70,7 @@ const Navbar = (props) => {
                         About
                     </Button>
                     <Button onClick={() => {
-                        navigate('/home')
+                        navigate('/offers')
                     }}>
                         offers
                     </Button>
