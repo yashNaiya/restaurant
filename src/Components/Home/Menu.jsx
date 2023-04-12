@@ -71,8 +71,8 @@ const Menu = (props) => {
 
         return (
             <Box
-                maxWidth={'60%'}
-                minWidth={'60%'}
+                maxWidth={'70%'}
+                minWidth={'70%'}
                 margin="50px auto"
                 minHeight={'100vh'}
                 display={'flex'}
@@ -114,7 +114,7 @@ const Menu = (props) => {
                     width={'100%'}
                     flexDirection={'row'}
                     flexWrap={'wrap'}
-                    
+                    justifyContent={'space-evenly'}
                 >
                     {pizzas.map(pizza => (
                         <Card rootUserId={props.rootUserId} key={pizza._id} image={image} item={pizza} />
@@ -133,7 +133,7 @@ const Menu = (props) => {
                     width={'100%'}
                     flexDirection={'row'}
                     flexWrap={'wrap'}
-                    
+                    justifyContent={'space-evenly'}
                 >
                     {burgers.map(burg =>
 
