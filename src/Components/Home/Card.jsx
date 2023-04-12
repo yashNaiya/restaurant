@@ -41,7 +41,7 @@ const Card = (props) => {
     }
     if (props.item) {
         return (
-            <Box display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'}
+            <Box marginX={'.5rem'} display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'}
             >
                 <Box width={'250px'} marginBottom={'1rem'} minHeight={'280px'} borderRadius={'12px'}
                     display={'flex'} flexDirection={'column'} justifyContent={'space-between'}
