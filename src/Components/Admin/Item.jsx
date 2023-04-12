@@ -313,7 +313,7 @@ const Item = () => {
                             <Box paddingY='1rem'>
                                 <TextField variant='outlined' autoComplete='off' size='small' name='price' onChange={handleChange} value={itemData.price} label={'price'}></TextField>
                             </Box>
-                            <Box borderBottom={'1px solid #a9927d'} paddingY='1rem'>
+                           {category ==='pizza' && <Box borderBottom={'1px solid #a9927d'} paddingY='1rem'>
                                 <Typography marginBottom={'1rem'}>Select Prize For Size</Typography>
                                 <Box marginBottom={'.5rem'}>
                                     <Box display='flex' flexDirection={'row'}>
@@ -333,9 +333,11 @@ const Item = () => {
                                     </Box>
                                     {sizeselect.large && <TextField value={sizeprice.large} onChange={(e) => { setsizeprice((prevstate) => ({ ...prevstate, large: e.target.value })) }} label='price' size='small'></TextField>}
                                 </Box>
-                            </Box>
+                            </Box>}
                             <Box>
-                                <Typography marginTop={'2rem'} sx={{ marginBottom: '1rem' }}>Toppings</Typography>
+                                {category ==='pizza' && <Typography marginTop={'2rem'} sx={{ marginBottom: '1rem' }}>Toppings</Typography>
+                                
+                                || <Typography marginTop={'2rem'} sx={{ marginBottom: '1rem' }}>Extras</Typography>}
                                 <Box >
                                     {
                                         toppingList.map((topping, index) => (

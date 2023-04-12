@@ -14,7 +14,7 @@ const ReviewCard = (props) => {
     const SERVER_HOST = process.env.REACT_APP_API_ENDPOINT + '/images/'
 
     const [product, setProduct] = useState()
-    const [show, setshow] = useState(false)
+    const [show, setshow] = useState(true)
     const [count, setCount] = useState(0)
     const [size, setsize] = useState('medium')
     const [value, setValue] = useState(0);
@@ -115,7 +115,7 @@ const ReviewCard = (props) => {
 
                 </Box>
                 <Box width={'100%'} bgcolor='primary.main' display={'flex'} justifyContent='flex-end' flexDirection={'row'}>
-                    <IconButton onClick={() => { setshow(!show) }} sx={{ margin: 0, padding: 0 }}><ArrowDown3 /></IconButton>
+                <IconButton onClick={() => { setshow(!show) }} sx={{ margin: 0, padding: 0 }}><ArrowDown3 /></IconButton>
                 </Box>
                 {show && <Box
                     display={'flex'}
@@ -126,8 +126,11 @@ const ReviewCard = (props) => {
                     maxHeight={'fit-content'}
                     minHeight={'8rem'}>
                     <Box>
-                        <Typography>Select Toppings</Typography>
-                        {product.toppings &&
+                       {product.category==='pizza' && <Typography><b>Select Toppings</b></Typography>
+                       ||
+                        <Typography><b>Select Extra</b></Typography>
+                       }
+                        {(product.toppings.length !== 0) &&
                             <Box>
                                 {product.toppings.map(topping =>
                                     <Box display={'flex'} flexDirection='row' alignItems={'center'}>
@@ -162,10 +165,10 @@ const ReviewCard = (props) => {
                             </Box>
 
 
-                            || <Typography>No Toppings Available</Typography>}
+                            || <Typography>Nothing Available</Typography>}
                     </Box>
-                    <Box>
-                        <Typography>Select Size</Typography>
+                    {product.category==='pizza' && <Box>
+                        <Typography><b>Select Size</b></Typography>
                         <FormControl>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
@@ -182,7 +185,7 @@ const ReviewCard = (props) => {
                                 {!(Number(product.size.large)===0) &&<FormControlLabel name='large' value={parseFloat(product.size.large).toFixed(2)} control={<Radio />} label="large" />}
                             </RadioGroup>
                         </FormControl>
-                    </Box>
+                    </Box>}
 
                 </Box>}
             </Box>
