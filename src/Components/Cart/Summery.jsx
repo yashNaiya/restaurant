@@ -10,6 +10,7 @@ const Summery = (props) => {
     const [payment, setpayment] = useState(false)
     const [offers, setoffers] = useState()
     const [code, setcode] = useState('')
+    const [totalG, settotalG] = useState()
     const [newTotal, setnewTotal] = useState(0)
     const [paymentInfo, setpaymentInfo] = useState({
         type: "cash",
@@ -93,10 +94,13 @@ const Summery = (props) => {
             // console.log(offerTemp)
             const newVal = (((props.total + props.gst) * Number(100 - offerTemp.percentage)) / 100).toFixed(2)
             setnewTotal(newVal)
+            settotalG(newVal)
+
         }
         if(code=='First50'){
             const newVal = (((props.total + props.gst) * Number(100 - 50)) / 100).toFixed(2)
             setnewTotal(newVal)
+            settotalG(newVal)
         }
         // }
     }
@@ -194,7 +198,7 @@ const Summery = (props) => {
                         </Box>
                         }
                         {((paymentInfo.info.length === 16 && paymentInfo.cvv.length === 3 && !(paymentInfo.expires === "")) || paymentInfo.type === "cash") && <Button inputProps={{ maxLength: 16 }} sx={{ marginTop: '1rem' }} variant='contained' onClick={handleOrder}>Place Order</Button>
-                            || ((paymentInfo.type === "gpay") && newTotal === 0 &&
+                            || ((paymentInfo.type === "gpay") && 
                                 <GooglePayButton
                                     environment="TEST"
                                     paymentRequest={{
@@ -223,7 +227,7 @@ const Summery = (props) => {
                                         transactionInfo: {
                                             totalPriceStatus: 'FINAL',
                                             totalPriceLabel: 'Total',
-                                            totalPrice: `${(props.total + props.gst).toFixed(2)}`,
+                                            totalPrice: newTotal===0?(props.total + props.gst).toFixed(2):totalG,
                                             currencyCode: 'CAD',
                                             countryCode: 'CA',
                                         },
@@ -237,7 +241,7 @@ const Summery = (props) => {
                                             paymentInfo: paymentInfo,
                                             instruct: instruction,
                                             rootUserId: props.rootUserId,
-                                            total: (props.total + props.gst).toFixed(2),
+                                            total: totalG,
                                             dateTime: dateTime()
                                         })
                                         .then(res => {
@@ -267,80 +271,80 @@ const Summery = (props) => {
                                     buttonType='Buy'
                                 />
                             )
-                            || ((paymentInfo.type === "gpay") && newTotal !== 0 &&
-                                <GooglePayButton
-                                    environment="TEST"
-                                    paymentRequest={{
-                                        apiVersion: 2,
-                                        apiVersionMinor: 0,
-                                        allowedPaymentMethods: [
-                                            {
-                                                type: 'CARD',
-                                                parameters: {
-                                                    allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                                                    allowedCardNetworks: ['MASTERCARD', 'VISA'],
-                                                },
-                                                tokenizationSpecification: {
-                                                    type: 'PAYMENT_GATEWAY',
-                                                    parameters: {
-                                                        gateway: 'example',
-                                                        gatewayMerchantId: 'exampleGatewayMerchantId',
-                                                    },
-                                                },
-                                            },
-                                        ],
-                                        merchantInfo: {
-                                            merchantId: '12345678901234567890',
-                                            merchantName: 'Demo Merchant',
-                                        },
-                                        transactionInfo: {
-                                            totalPriceStatus: 'FINAL',
-                                            totalPriceLabel: 'Total',
-                                            totalPrice: `${newTotal}`,
-                                            currencyCode: 'CAD',
-                                            countryCode: 'CA',
-                                        },
-                                        shippingAddressRequired: true,
-                                        callbackIntents: ['SHIPPING_ADDRESS'],
-                                    }}
-                                    onLoadPaymentData={paymentRequest => {
-                                        console.log('Success', paymentRequest);
+                            // || ((paymentInfo.type === "gpay") && 
+                            //     <GooglePayButton
+                            //         environment="TEST"
+                            //         paymentRequest={{
+                            //             apiVersion: 2,
+                            //             apiVersionMinor: 0,
+                            //             allowedPaymentMethods: [
+                            //                 {
+                            //                     type: 'CARD',
+                            //                     parameters: {
+                            //                         allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                            //                         allowedCardNetworks: ['MASTERCARD', 'VISA'],
+                            //                     },
+                            //                     tokenizationSpecification: {
+                            //                         type: 'PAYMENT_GATEWAY',
+                            //                         parameters: {
+                            //                             gateway: 'example',
+                            //                             gatewayMerchantId: 'exampleGatewayMerchantId',
+                            //                         },
+                            //                     },
+                            //                 },
+                            //             ],
+                            //             merchantInfo: {
+                            //                 merchantId: '12345678901234567890',
+                            //                 merchantName: 'Demo Merchant',
+                            //             },
+                            //             transactionInfo: {
+                            //                 totalPriceStatus: 'FINAL',
+                            //                 totalPriceLabel: 'Total',
+                            //                 totalPrice: `${totalG}`,
+                            //                 currencyCode: 'CAD',
+                            //                 countryCode: 'CA',
+                            //             },
+                            //             shippingAddressRequired: true,
+                            //             callbackIntents: ['SHIPPING_ADDRESS'],
+                            //         }}
+                            //         onLoadPaymentData={paymentRequest => {
+                            //             console.log('Success', paymentRequest);
 
-                                        api.post('/placeorder',
-                                        {
-                                            paymentInfo: paymentInfo,
-                                            instruct: instruction,
-                                            rootUserId: props.rootUserId,
-                                            total:newTotal,
-                                            dateTime: dateTime()
-                                        })
-                                        .then(res => {
-                                            alert(res.data.message)
-                                            setInstruction('')
-                                            props.setGst(0)
-                                            props.setTotal(0)
-                                            localStorage.clear()
-                                            setFlag(true)
-                                            props.sethasOrdered(true)
-                                        }).catch(err => {
-                                            console.log(err)
-                                        })
-                                    }}
-                                    onPaymentAuthorized={paymentData => {
-                                        console.log('Payment Authorised Success', paymentData)
-                                        return { transactionState: 'SUCCESS' }
-                                    }
-                                    }
-                                    onPaymentDataChanged={paymentData => {
-                                        console.log('On Payment Data Changed', paymentData)
-                                        return {}
-                                    }
-                                    }
-                                    existingPaymentMethodRequired='false'
-                                    // buttonColor='primary.main'
-                                    buttonType='Buy'
-                                />
-                            )
+                            //             api.post('/placeorder',
+                            //             {
+                            //                 paymentInfo: paymentInfo,
+                            //                 instruct: instruction,
+                            //                 rootUserId: props.rootUserId,
+                            //                 total:newTotal,
+                            //                 dateTime: dateTime()
+                            //             })
+                            //             .then(res => {
+                            //                 alert(res.data.message)
+                            //                 setInstruction('')
+                            //                 props.setGst(0)
+                            //                 props.setTotal(0)
+                            //                 localStorage.clear()
+                            //                 setFlag(true)
+                            //                 props.sethasOrdered(true)
+                            //             }).catch(err => {
+                            //                 console.log(err)
+                            //             })
+                            //         }}
+                            //         onPaymentAuthorized={paymentData => {
+                            //             console.log('Payment Authorised Success', paymentData)
+                            //             return { transactionState: 'SUCCESS' }
+                            //         }
+                            //         }
+                            //         onPaymentDataChanged={paymentData => {
+                            //             console.log('On Payment Data Changed', paymentData)
+                            //             return {}
+                            //         }
+                            //         }
+                            //         existingPaymentMethodRequired='false'
+                            //         // buttonColor='primary.main'
+                            //         buttonType='Buy'
+                            //     />
+                            // )
 
                             || < Button disabled sx={{ marginTop: '1rem' }} variant='contained'>Make Payment</Button>}
                     </Box>
