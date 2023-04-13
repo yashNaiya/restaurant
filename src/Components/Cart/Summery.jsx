@@ -75,17 +75,25 @@ const Summery = (props) => {
         let offerTemp = ''
         // flag=0
         offers.forEach((offer, index) => {
-            console.log(code)
-            console.log(offer.coupon)
+            // console.log(code)
+            // console.log(offer.coupon)
             if (code === offer.coupon) {
-                offerTemp = offer
-                offers.slice(index, 1)
+                // console.log(offer.coupon)
+                if(props.total>offer.price){
+                    console.log(offer)
+                    offerTemp = offer
+                    offers.slice(index, 1)
+                }
             }
         });
         // if(flag===1){
         if (offerTemp !== '') {
-            console.log(offerTemp)
+            // console.log(offerTemp)
             const newVal = (((props.total + props.gst) * Number(100 - offerTemp.percentage)) / 100).toFixed(2)
+            setnewTotal(newVal)
+        }
+        if(code=='First50'){
+            const newVal = (((props.total + props.gst) * Number(100 - 50)) / 100).toFixed(2)
             setnewTotal(newVal)
         }
         // }
@@ -119,7 +127,10 @@ const Summery = (props) => {
                     </Box>}
                 </Box>
                 {newTotal !== 0 &&
+                <Box>
                     <Typography fontWeight={'bold'} color={'third.main'}>New Total : {newTotal}</Typography>
+                    {/* <IconButton onClick={()=>setnewTotal(0)}><CloseCircle/></IconButton> */}
+                </Box>
                 }
                 <TextField marginTop={'1rem'} onChange={handleChange} name='instruction' value={instruction} label={'special instructions(optional)'}></TextField>
                 {payment ?
