@@ -11,8 +11,9 @@ const Order = () => {
     useEffect(() => {
         api.post('/adminorderhistory')
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 setliveOrder(res.data.liveOrders)
+                console.log(res.data.liveOrders)
                 setpastOrder(res.data.pastOrders)
             })
             .catch(err => { console.log(err) })

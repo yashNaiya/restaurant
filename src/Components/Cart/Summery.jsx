@@ -219,6 +219,25 @@ const Summery = (props) => {
                                     }}
                                     onLoadPaymentData={paymentRequest => {
                                         console.log('Success', paymentRequest);
+                                        api.post('/placeorder',
+                                        {
+                                            paymentInfo: paymentInfo,
+                                            instruct: instruction,
+                                            rootUserId: props.rootUserId,
+                                            total: (props.total + props.gst).toFixed(2),
+                                            dateTime: dateTime()
+                                        })
+                                        .then(res => {
+                                            alert(res.data.message)
+                                            setInstruction('')
+                                            props.setGst(0)
+                                            props.setTotal(0)
+                                            localStorage.clear()
+                                            setFlag(true)
+                                            props.sethasOrdered(true)
+                                        }).catch(err => {
+                                            console.log(err)
+                                        })
                                     }}
                                     onPaymentAuthorized={paymentData => {
                                         console.log('Payment Authorised Success', paymentData)
@@ -269,10 +288,30 @@ const Summery = (props) => {
                                             countryCode: 'CA',
                                         },
                                         shippingAddressRequired: true,
-                                        callbackIntents: ['SHIPPING_ADDRESS', 'PAYMENT_AUTHORIZATION'],
+                                        callbackIntents: ['SHIPPING_ADDRESS'],
                                     }}
                                     onLoadPaymentData={paymentRequest => {
                                         console.log('Success', paymentRequest);
+
+                                        api.post('/placeorder',
+                                        {
+                                            paymentInfo: paymentInfo,
+                                            instruct: instruction,
+                                            rootUserId: props.rootUserId,
+                                            total:newTotal,
+                                            dateTime: dateTime()
+                                        })
+                                        .then(res => {
+                                            alert(res.data.message)
+                                            setInstruction('')
+                                            props.setGst(0)
+                                            props.setTotal(0)
+                                            localStorage.clear()
+                                            setFlag(true)
+                                            props.sethasOrdered(true)
+                                        }).catch(err => {
+                                            console.log(err)
+                                        })
                                     }}
                                     onPaymentAuthorized={paymentData => {
                                         console.log('Payment Authorised Success', paymentData)

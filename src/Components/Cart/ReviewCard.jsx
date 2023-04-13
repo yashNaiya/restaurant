@@ -16,6 +16,7 @@ const ReviewCard = (props) => {
     const [product, setProduct] = useState()
     const [show, setshow] = useState(true)
     const [count, setCount] = useState(0)
+    const [toppings, settoppings] = useState([])
     const [size, setsize] = useState('medium')
     const [value, setValue] = useState(0);
     useEffect(() => {
@@ -31,7 +32,7 @@ const ReviewCard = (props) => {
     }, [])
     let temptoppings = []
     const handleAddtocart = () => {
-        api.post('/addtocart', { count: count, userId: props.rootUserId, productId: props.item.productId, price: product.price, name: product.name,size:size,toppings:temptoppings })
+        api.post('/addtocart', { count: count, userId: props.rootUserId, productId: props.item.productId, price: product.price, name: product.name, size: size, toppings: toppings })
             .then(res => {
                 props.setTotal(res.data.total)
                 props.setGst(res.data.gst)
@@ -61,14 +62,13 @@ const ReviewCard = (props) => {
         if (product) {
             handleAddtocart()
         }
-        // console.log(value)
-    }, [value,temptoppings])
+        console.log(toppings)
+    }, [value, toppings])
 
 
     if (product && !(count === 0)) {
-        // console.log(product.size.small)
-        // const baseprice = product.price
-        
+     
+
         return (
             <Box display='flex' flexDirection={'column'} sx={{ borderBottom: '2px solid #a9927d' }}>
                 <Box justifyContent={'space-between'}
@@ -79,7 +79,7 @@ const ReviewCard = (props) => {
                         minWidth={'30%'}
                         width={'30%'}
                         sx={{
-                            backgroundImage: `url(${SERVER_HOST+product.image})`,
+                            backgroundImage: `url(${SERVER_HOST + product.image})`,
                             backgroundSize: "cover",
                             backgroundPosition: 'center'
                         }}
@@ -115,7 +115,7 @@ const ReviewCard = (props) => {
 
                 </Box>
                 <Box width={'100%'} bgcolor='primary.main' display={'flex'} justifyContent='flex-end' flexDirection={'row'}>
-                <IconButton onClick={() => { setshow(!show) }} sx={{ margin: 0, padding: 0 }}><ArrowDown3 /></IconButton>
+                    <IconButton onClick={() => { setshow(!show) }} sx={{ margin: 0, padding: 0 }}><ArrowDown3 /></IconButton>
                 </Box>
                 {show && <Box
                     display={'flex'}
@@ -126,40 +126,45 @@ const ReviewCard = (props) => {
                     maxHeight={'fit-content'}
                     minHeight={'8rem'}>
                     <Box>
-                       {product.category==='pizza' && <Typography><b>Select Toppings</b></Typography>
-                       ||
-                        <Typography><b>Select Extra</b></Typography>
-                       }
+                        {product.category === 'pizza' && <Typography><b>Select Toppings</b></Typography>
+                            ||
+                            <Typography><b>Select Extra</b></Typography>
+                        }
                         {(product.toppings.length !== 0) &&
                             <Box>
                                 {product.toppings.map(topping =>
                                     <Box display={'flex'} flexDirection='row' alignItems={'center'}>
                                         <FormControl>
-                                        <Checkbox value={topping.price}
-                                            onChange={(e) => {
-                                                //    console.log(e.target.checked)
-                                                if (e.target.checked) {
-                                                    temptoppings.push(topping)
-                                                    let int = parseInt(topping.price)
-                                                    let sum = Number(product.price) + int
-                                                    console.log(int)
-                                                    console.log(sum)
-                                                    // console.log(parseFloat(topping.price).toFixed(2))
-                                                    setProduct((prevstate) => ({ ...prevstate, price:sum }))
-                                                } else {
-                                                    for (let i = 0; i < temptoppings.length; i++) {
-                                                        if (temptoppings[i] === topping) {
-                                                            temptoppings.splice(i, 1)
+                                            <Checkbox value={topping.price}
+                                                onChange={(e) => {
+                                                    //    console.log(e.target.checked)
+                                                    if (e.target.checked) {
+                                                        temptoppings.push(...temptoppings,topping)
+                                                        settoppings([...toppings,topping])
+                                                        let int = parseInt(topping.price)
+                                                        let sum = Number(product.price) + int
+                                                        console.log(int)
+                                                        console.log(sum)
+                                                        // console.log(parseFloat(topping.price).toFixed(2))
+                                                        setProduct((prevstate) => ({ ...prevstate, price: sum }))
+                                                    } else {
+                                                        for (let i = 0; i < toppings.length; i++) {
+                                                            if (toppings[i] === topping) {
+                                                                let temp = toppings
+                                                                temp.splice(i,1)
+                                                                settoppings(temp)
+                                                                // console.log(toppings)
+                                                                handleAddtocart()
+                                                            }
                                                         }
+                                                        let int = parseInt(topping.price)
+                                                        let sum = Number(product.price) - int
+                                                        setProduct((prevstate) => ({ ...prevstate, price: sum }))
                                                     }
-                                                    let int = parseInt(topping.price)
-                                                    let sum = Number(product.price) - int
-                                                    setProduct((prevstate) => ({ ...prevstate, price:sum }))
-                                                }
-                                                // console.log(temptoppings)
-                                            }} />
+                                                    // console.log(temptoppings)
+                                                }} />
                                         </FormControl>
-                                        <Typography>{topping.name}</Typography>
+                                        <Typography>{topping.name}{`($${topping.price})`}</Typography>
                                     </Box>
                                 )}
                             </Box>
@@ -167,7 +172,7 @@ const ReviewCard = (props) => {
 
                             || <Typography>Nothing Available</Typography>}
                     </Box>
-                    {product.category==='pizza' && <Box>
+                    {product.category === 'pizza' && <Box>
                         <Typography><b>Select Size</b></Typography>
                         <FormControl>
                             <RadioGroup
@@ -180,9 +185,18 @@ const ReviewCard = (props) => {
                                 }}
                                 name="radio-buttons-group"
                             >
-                                {!(Number(product.size.small)===0) && <FormControlLabel name='small' value={parseFloat(product.size.small).toFixed(2)} control={<Radio />} label="small" />}
+                                <Box width='100%' justifyContent={'space-between'} display={'flex'} flexDirection='row' alignItems={'center'}>
+                                    {!(Number(product.size.small) === 0) && <FormControlLabel name='small' value={parseFloat(product.size.small).toFixed(2)} control={<Radio />} label="small" />}
+                                    <Typography>: ${parseFloat(product.size.small).toFixed(2)}</Typography>
+                                </Box>
+                                <Box display={'flex'} flexDirection='row' alignItems={'center'}>
                                 <FormControlLabel name='medium' defaultChecked value={parseFloat(product.size.medium).toFixed(2)} control={<Radio />} label="medium" />
-                                {!(Number(product.size.large)===0) &&<FormControlLabel name='large' value={parseFloat(product.size.large).toFixed(2)} control={<Radio />} label="large" />}
+                                <Typography>: ${parseFloat(product.size.medium).toFixed(2)}</Typography>
+                                </Box>
+                                <Box width='100%' justifyContent={'space-between'} display={'flex'} flexDirection='row' alignItems={'center'}>
+                                {!(Number(product.size.large) === 0) && <FormControlLabel name='large' value={parseFloat(product.size.large).toFixed(2)} control={<Radio />} label="large" />}
+                                <Typography>: ${parseFloat(product.size.large).toFixed(2)}</Typography>
+                                </Box>
                             </RadioGroup>
                         </FormControl>
                     </Box>}

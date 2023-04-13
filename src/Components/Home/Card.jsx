@@ -11,7 +11,7 @@ const Card = (props) => {
 
     const [counter, setCounter] = useState(0)
     const handleAddtocart = () => {
-        api.post('/addtocart', { count: counter, userId: props.rootUserId, productId: props.item._id, price: props.item.price,name:props.item.name })
+        api.post('/addtocart', { count: counter, userId: props.rootUserId, productId: props.item._id, price: props.item.price,name:props.item.name,size:'medium' })
             .then(res=>{
                 
             })
