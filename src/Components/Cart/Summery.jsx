@@ -83,6 +83,8 @@ const Summery = (props) => {
                     console.log(offer)
                     offerTemp = offer
                     offers.slice(index, 1)
+                }else{
+                    alert('offer not applicable')
                 }
             }
         });
