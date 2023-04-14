@@ -17,14 +17,28 @@ const ReviewCard = (props) => {
     const [show, setshow] = useState(true)
     const [count, setCount] = useState(0)
     const [toppings, settoppings] = useState([])
-    const [size, setsize] = useState('medium')
-    const [value, setValue] = useState(0);
+    const [size, setsize] = useState()
+    const [value, setValue] = useState();
+    const [loading, setloading] = useState(false)
     useEffect(() => {
         if (props.item) {
+            setValue(parseFloat(props.item.size.value).toFixed(2))
+            setsize(props.item.size.name)
+            console.log(props.item.extra)
+
             api.post('/getproduct', props.item)
                 .then(res => {
                     setProduct(res.data)
+                    // setProduct((prevstate) => ({ ...prevstate, price: parseFloat(props.item.size.value).toFixed(2) }))
+                    let int = 0
+                    props.item.extra.forEach(topping => {
+                        settoppings([...toppings, topping])
+                        int = int + parseInt(topping.price)
+                    });
+                    let sum = Number(parseFloat(props.item.size.value).toFixed(2)) + int
+                    setProduct((prevstate) => ({ ...prevstate, price:sum }))
                 }).catch(err => {
+
                 })
         }
 
@@ -32,10 +46,12 @@ const ReviewCard = (props) => {
     }, [])
     let temptoppings = []
     const handleAddtocart = () => {
-        api.post('/addtocart', { count: count, userId: props.rootUserId, productId: props.item.productId, price: product.price, name: product.name, size: size, toppings: toppings })
+        setloading(true)
+        api.post('/addtocart', { count: count, userId: props.rootUserId, productId: props.item.productId, price: product.price, name: product.name, size: { name: size, value: value }, toppings: toppings })
             .then(res => {
                 props.setTotal(res.data.total)
                 props.setGst(res.data.gst)
+                setloading(false)
             })
             .catch(err => {
                 console.log(err)
@@ -43,9 +59,12 @@ const ReviewCard = (props) => {
 
     }
     const handleChange = (event) => {
-
-        setProduct((prevstate) => ({ ...prevstate, price: parseFloat(event.target.value).toFixed(2) }))
-        // console.log(value)
+        let int = 0
+        toppings.forEach(topping => {
+            int = int + parseInt(topping.price)
+        });
+        // console.log(Number(parseFloat(event.target.value).toFixed(2))+int)
+        setProduct((prevstate) => ({ ...prevstate, price: Number(parseFloat(event.target.value).toFixed(2)) + int }))
         handleAddtocart()
     };
 
@@ -62,13 +81,13 @@ const ReviewCard = (props) => {
         if (product) {
             handleAddtocart()
         }
-        console.log(toppings)
-    }, [value, toppings])
-
+        // console.log(toppings)
+    }, [value,toppings])
 
     if (product && !(count === 0)) {
-     
 
+        // console.log(props.item.exrta)
+        
         return (
             <Box display='flex' flexDirection={'column'} sx={{ borderBottom: '2px solid #a9927d' }}>
                 <Box justifyContent={'space-between'}
@@ -132,43 +151,53 @@ const ReviewCard = (props) => {
                         }
                         {(product.toppings.length !== 0) &&
                             <Box>
-                                {product.toppings.map(topping =>
-                                    <Box display={'flex'} flexDirection='row' alignItems={'center'}>
-                                        <FormControl>
-                                            <Checkbox value={topping.price}
-                                                onChange={(e) => {
-                                                    //    console.log(e.target.checked)
-                                                    if (e.target.checked) {
-                                                        temptoppings.push(...temptoppings,topping)
-                                                        settoppings([...toppings,topping])
-                                                        let int = parseInt(topping.price)
-                                                        let sum = Number(product.price) + int
-                                                        console.log(int)
-                                                        console.log(sum)
-                                                        // console.log(parseFloat(topping.price).toFixed(2))
-                                                        setProduct((prevstate) => ({ ...prevstate, price: sum }))
-                                                    } else {
-                                                        for (let i = 0; i < toppings.length; i++) {
-                                                            if (toppings[i] === topping) {
-                                                                let temp = toppings
-                                                                temp.splice(i,1)
-                                                                settoppings(temp)
-                                                                // console.log(toppings)
-                                                                handleAddtocart()
+                                {product.toppings.map(topping => {
+                                    var check = false
+                                    for (let i = 0; i < props.item.extra.length; i++) {
+                                        // console.log(props.item.extra[i])
+                                        // console.log(topping)
+                                        if (props.item.extra[i].name === topping.name) {
+                                            check = true
+
+                                            break
+                                        }
+                                    }
+
+                                    return (
+                                        <Box display={'flex'} flexDirection='row' alignItems={'center'}>
+                                            <FormControl>
+                                                <Checkbox defaultChecked={check} value={topping.price}
+                                                    onChange={(e) => {
+                                                        //    console.log(e.target.checked)
+                                                        if (e.target.checked) {
+                                                          
+                                                            settoppings([...toppings, topping])
+                                                            let int = parseInt(topping.price)
+                                                            let sum = Number(product.price) + int
+                                                            setProduct((prevstate) => ({ ...prevstate, price: sum }))
+                                                        } else {
+                                                            for (let i = 0; i < toppings.length; i++) {
+                                                                if (toppings[i] === topping) {
+                                                                    let temp = toppings
+                                                                    temp.splice(i, 1)
+                                                                    settoppings(temp)
+                                                                    // console.log(toppings)
+                                                                    handleAddtocart()
+                                                                }
                                                             }
+                                                            let int = parseInt(topping.price)
+                                                            let sum = Number(product.price) - int
+                                                            setProduct((prevstate) => ({ ...prevstate, price: sum }))
                                                         }
-                                                        let int = parseInt(topping.price)
-                                                        let sum = Number(product.price) - int
-                                                        setProduct((prevstate) => ({ ...prevstate, price: sum }))
-                                                    }
-                                                    // console.log(temptoppings)
-                                                }} />
-                                        </FormControl>
-                                        <Typography>{topping.name}{`($${topping.price})`}</Typography>
-                                    </Box>
+                                                        // console.log(temptoppings)
+                                                    }} />
+                                            </FormControl>
+                                            <Typography>{topping.name}{`($${topping.price})`}</Typography>
+                                        </Box>
+                                    )
+                                }
                                 )}
                             </Box>
-
 
                             || <Typography>Nothing Available</Typography>}
                     </Box>
@@ -190,18 +219,19 @@ const ReviewCard = (props) => {
                                     <Typography>: ${parseFloat(product.size.small).toFixed(2)}</Typography>
                                 </Box>
                                 <Box display={'flex'} flexDirection='row' alignItems={'center'}>
-                                <FormControlLabel name='medium' defaultChecked value={parseFloat(product.size.medium).toFixed(2)} control={<Radio />} label="medium" />
-                                <Typography>: ${parseFloat(product.size.medium).toFixed(2)}</Typography>
+                                    <FormControlLabel name='medium' value={parseFloat(product.size.medium).toFixed(2)} control={<Radio />} label="medium" />
+                                    <Typography>: ${parseFloat(product.size.medium).toFixed(2)}</Typography>
                                 </Box>
                                 <Box width='100%' justifyContent={'space-between'} display={'flex'} flexDirection='row' alignItems={'center'}>
-                                {!(Number(product.size.large) === 0) && <FormControlLabel name='large' value={parseFloat(product.size.large).toFixed(2)} control={<Radio />} label="large" />}
-                                <Typography>: ${parseFloat(product.size.large).toFixed(2)}</Typography>
+                                    {!(Number(product.size.large) === 0) && <FormControlLabel name='large' value={parseFloat(product.size.large).toFixed(2)} control={<Radio />} label="large" />}
+                                    <Typography>: ${parseFloat(product.size.large).toFixed(2)}</Typography>
                                 </Box>
                             </RadioGroup>
                         </FormControl>
                     </Box>}
 
                 </Box>}
+                {loading && <Typography>Updating...</Typography>}
             </Box>
         )
     }

@@ -256,6 +256,9 @@ const Summery = (props) => {
                                             console.log(err)
                                         })
                                     }}
+                                    onError={reason=> {
+                                        console.log("Error :",reason)
+                                    }}
                                     onPaymentAuthorized={paymentData => {
                                         console.log('Payment Authorised Success', paymentData)
                                         return { transactionState: 'SUCCESS' }
