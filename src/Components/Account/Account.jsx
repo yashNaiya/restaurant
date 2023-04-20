@@ -1,4 +1,4 @@
-import { Box, Typography, Button, Dialog, DialogTitle } from '@mui/material'
+import { Box, Typography, Button, Dialog, DialogTitle, IconButton } from '@mui/material'
 import React from 'react'
 import Navbar from '../Navbar'
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import OrderHistory from './OrderHistory';
 import api from '../../Api';
 import Footer from '../Footer';
 import ContactPage from '../ContactPage';
+import { CloseCircle } from 'iconsax-react';
 const Account = () => {
     const [contactBox, setcontactBox] = useState(false)
     const [rootUser, setrootUser] = useState()
@@ -27,7 +28,8 @@ const Account = () => {
     return (
         <Box display={'flex'} flexDirection={'column'}>
             <Dialog fullWidth disableEscapeKeyDown open={contactBox} onClose={() => { setcontactBox(false) }}>
-                <DialogTitle>Help Request</DialogTitle>
+            <DialogTitle><Box display={'flex'} flexDirection={'row'} justifyContent='space-between'><Typography>Help Request</Typography><IconButton onClick={() => { setcontactBox(false) }}><CloseCircle /></IconButton></Box></DialogTitle>
+
                 <ContactPage />
             </Dialog>
             <Navbar />

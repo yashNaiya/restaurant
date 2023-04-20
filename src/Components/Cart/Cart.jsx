@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogTitle, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogTitle, IconButton, Typography } from '@mui/material'
 import React from 'react'
 import Navbar from '../Navbar'
 import Review from './Review'
@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import api from '../../Api'
 import Footer from '../Footer'
 import ContactPage from '../ContactPage'
+import { CloseCircle } from 'iconsax-react'
 const Cart = () => {
     const navigation = useNavigate()
     const [total, setTotal] = useState(0)
@@ -36,7 +37,7 @@ const Cart = () => {
         return (
             <Box display={'flex'} flexDirection={'column'}>
                 <Dialog fullWidth disableEscapeKeyDown open={contactBox} onClose={() => { setcontactBox(false) }}>
-                    <DialogTitle>Help Request</DialogTitle>
+                    <DialogTitle><Box display={'flex'} flexDirection={'row'} justifyContent='space-between'><Typography>Help Request</Typography><IconButton onClick={() => { setcontactBox(false) }}><CloseCircle /></IconButton></Box></DialogTitle>
                     <ContactPage />
                 </Dialog>
                 <Navbar />

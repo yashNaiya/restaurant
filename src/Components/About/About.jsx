@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogTitle, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogTitle, IconButton, Typography } from '@mui/material'
 import React from 'react'
 import Footer from '../Footer'
 import image from '../../Assets/paper.jpg'
@@ -7,13 +7,15 @@ import Navbar from '../Navbar'
 import ContactPage from '../ContactPage'
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
+import { CloseCircle } from 'iconsax-react'
 const About = () => {
     const [contactBox, setcontactBox] = React.useState(false)
     const navigation = useNavigate()
     return (
         <Box>
             <Dialog fullWidth disableEscapeKeyDown open={contactBox} onClose={() => { setcontactBox(false) }}>
-                <DialogTitle>Help Request</DialogTitle>
+            <DialogTitle><Box display={'flex'} flexDirection={'row'} justifyContent='space-between'><Typography>Help Request</Typography><IconButton onClick={() => { setcontactBox(false) }}><CloseCircle /></IconButton></Box></DialogTitle>
+
                 <ContactPage />
             </Dialog>
             <Navbar />
