@@ -199,7 +199,11 @@ const Summery = (props) => {
                         }
                         {((paymentInfo.info.length === 16 && paymentInfo.cvv.length === 3 && !(paymentInfo.expires === "")) || paymentInfo.type === "cash") && <Button inputProps={{ maxLength: 16 }} sx={{ marginTop: '1rem' }} variant='contained' onClick={handleOrder}>Place Order</Button>
                             || ((paymentInfo.type === "gpay") && 
+                            
                                 <GooglePayButton
+                                    
+                                    buttonColor='#a9927d'
+                                    buttonSizeMode='fill'
                                     environment="TEST"
                                     paymentRequest={{
                                         apiVersion: 2,

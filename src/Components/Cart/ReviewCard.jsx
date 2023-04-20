@@ -36,7 +36,7 @@ const ReviewCard = (props) => {
                         int = int + parseInt(topping.price)
                     });
                     let sum = Number(parseFloat(props.item.size.value).toFixed(2)) + int
-                    setProduct((prevstate) => ({ ...prevstate, price:sum }))
+                    setProduct((prevstate) => ({ ...prevstate, price: sum }))
                 }).catch(err => {
 
                 })
@@ -45,9 +45,16 @@ const ReviewCard = (props) => {
         setCount(parseInt(localStorage.getItem(props.item.productId)))
     }, [])
     let temptoppings = []
-    const handleAddtocart = () => {
+    const handleAddtocart = (sum) => {
+        let price = 0
+        if(sum===0){
+            price = product.price
+        }else{
+            price = sum
+        }
         setloading(true)
-        api.post('/addtocart', { count: count, userId: props.rootUserId, productId: props.item.productId, price: product.price, name: product.name, size: { name: size, value: value }, toppings: toppings })
+        console.log(product.price)
+        api.post('/addtocart', { count: count, userId: props.rootUserId, productId: props.item.productId, price: price, name: product.name, size: { name: size, value: value }, toppings: toppings })
             .then(res => {
                 props.setTotal(res.data.total)
                 props.setGst(res.data.gst)
@@ -65,7 +72,7 @@ const ReviewCard = (props) => {
         });
         // console.log(Number(parseFloat(event.target.value).toFixed(2))+int)
         setProduct((prevstate) => ({ ...prevstate, price: Number(parseFloat(event.target.value).toFixed(2)) + int }))
-        handleAddtocart()
+        handleAddtocart(0)
     };
 
     useDidMountEffect(() => {
@@ -74,20 +81,20 @@ const ReviewCard = (props) => {
         }
         localStorage.setItem(props.item.productId, count)
         if (product) {
-            handleAddtocart()
+            handleAddtocart(0)
         }
     }, [count])
     useEffect(() => {
         if (product) {
-            handleAddtocart()
+            handleAddtocart(0)
         }
         // console.log(toppings)
-    }, [value,toppings])
+    }, [value, toppings])
 
     if (product && !(count === 0)) {
 
         // console.log(props.item.exrta)
-        
+
         return (
             <Box display='flex' flexDirection={'column'} sx={{ borderBottom: '2px solid #a9927d' }}>
                 <Box justifyContent={'space-between'}
@@ -170,24 +177,27 @@ const ReviewCard = (props) => {
                                                     onChange={(e) => {
                                                         //    console.log(e.target.checked)
                                                         if (e.target.checked) {
-                                                          
+
                                                             settoppings([...toppings, topping])
                                                             let int = parseInt(topping.price)
                                                             let sum = Number(product.price) + int
                                                             setProduct((prevstate) => ({ ...prevstate, price: sum }))
                                                         } else {
+                                                            let int = 0
                                                             for (let i = 0; i < toppings.length; i++) {
                                                                 if (toppings[i] === topping) {
                                                                     let temp = toppings
                                                                     temp.splice(i, 1)
                                                                     settoppings(temp)
-                                                                    // console.log(toppings)
-                                                                    handleAddtocart()
+                                                                    int = parseInt(topping.price)
+
+                                                                    break
                                                                 }
                                                             }
-                                                            let int = parseInt(topping.price)
                                                             let sum = Number(product.price) - int
+                                                            console.log(sum)
                                                             setProduct((prevstate) => ({ ...prevstate, price: sum }))
+                                                            handleAddtocart(sum)
                                                         }
                                                         // console.log(temptoppings)
                                                     }} />
