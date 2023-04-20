@@ -160,8 +160,8 @@ const Summery = (props) => {
                             >
                                 {/* <FormControlLabel value="credit" control={<Radio />} label="credit" />
                             <FormControlLabel value="debit" control={<Radio />} label="debit" /> */}
-                                <FormControlLabel defaultChecked value="cash" control={<Radio />} label="cash" />
-                                <FormControlLabel defaultChecked value="gpay" control={<Radio />} label="gpay" />
+                                <FormControlLabel defaultChecked value="cash" control={<Radio />} label="pay at restaurant" />
+                                <FormControlLabel defaultChecked value="gpay" control={<Radio />} label="pay online" />
                             </RadioGroup>
                         </FormControl>
                         {!(paymentInfo.type === "cash" || paymentInfo.type === "gpay") && <Box>
