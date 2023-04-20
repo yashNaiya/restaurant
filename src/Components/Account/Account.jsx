@@ -1,4 +1,4 @@
-import { Box, Typography, Button } from '@mui/material'
+import { Box, Typography, Button, Dialog, DialogTitle } from '@mui/material'
 import React from 'react'
 import Navbar from '../Navbar'
 import { useNavigate } from 'react-router-dom';
@@ -8,10 +8,12 @@ import { useEffect, useState } from 'react';
 import OrderHistory from './OrderHistory';
 import api from '../../Api';
 import Footer from '../Footer';
+import ContactPage from '../ContactPage';
 const Account = () => {
+    const [contactBox, setcontactBox] = useState(false)
     const [rootUser, setrootUser] = useState()
     const navigation = useNavigate()
-    const callAccountPage =  () => {
+    const callAccountPage = () => {
         api.get("/account", { withCredentials: true })
             .then(res => {
                 setrootUser(res.data.rootUser)
@@ -24,6 +26,10 @@ const Account = () => {
     }, [])
     return (
         <Box display={'flex'} flexDirection={'column'}>
+            <Dialog fullWidth disableEscapeKeyDown open={contactBox} onClose={() => { setcontactBox(false) }}>
+                <DialogTitle>Help Request</DialogTitle>
+                <ContactPage />
+            </Dialog>
             <Navbar />
             <Box marginX={'10%'} marginY={'2rem'}>
                 <Box borderBottom={'2px solid #a9927d'} display={'flex'} flexDirection={'row'}>
@@ -40,7 +46,7 @@ const Account = () => {
                     <OrderHistory rootUser={rootUser} />
                 </Box>
             </Box>
-            <Footer/>
+            <Footer setcontactBox={setcontactBox} />
         </Box>
     )
 }

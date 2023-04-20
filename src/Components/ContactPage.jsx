@@ -31,15 +31,14 @@ const ContactPage = () => {
     if (rootUser) {
 
         return (
-            <Box paddingTop={'3rem'} display={'flex'} flexDirection='column' alignItems='center' justifyContent={'space-around'}>
-                <Typography fontWeight={'bold'} fontSize={'24px'}>Help Request</Typography>
-                <Box marginTop={'3rem'} bgcolor='#37474F' display={'flex'}
+            <Box bgcolor={'#37474F'} width={'100%'} display={'flex'} flexDirection='column' alignItems='center' >
+                <Box marginTop={'2rem'}  display={'flex'}
                     borderRadius='2rem'
                     flexDirection='column'
                     justifyContent={'space-evenly'}
                     alignItems='center'
                     marginX='auto' width='50%' minHeight='40vh'>
-                    <Box flexDirection={'column'} bgcolor='#37474F' display={'flex'} justifyContent='space-evenly' height={'70vh'}>
+                    <Box flexDirection={'column'}  display={'flex'} justifyContent='space-evenly' height={'70vh'}>
                         <Box width='20rem'>
                             <TextField size='small' value={data.name} margin='auto' fullWidth name='name' onChange={(e)=>{handleChange(e)}} placeholder='name' sx={{ backgroundColor: '#fff' }}></TextField>
                         </Box>
@@ -69,7 +68,7 @@ const ContactPage = () => {
                                 name:"",
                                 subject:"",
                                 message:""
-                            }) }}>cancel</Button>
+                            }) }}>clear</Button>
                         </Box>
                     </Box>
                 </Box>

@@ -2,7 +2,7 @@ import { Box, Button, IconButton, Typography } from '@mui/material'
 import { ArrowRight3, Facebook, Instagram, Map } from 'iconsax-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-const Footer = () => {
+const Footer = (props) => {
     const navigate = useNavigate()
     return (
         <Box display={'flex'} justifyContent='space-evenly'
@@ -25,7 +25,10 @@ const Footer = () => {
                 <IconButton onClick={() => { navigate('/about') }} sx={{ color: '#fff' }}>Know More<ArrowRight3 /></IconButton>
             </Box>
             <Box>
-                <Button onClick={() => { window.open('/contact', '_blank') }} variant='contained'>Contact us</Button>
+                <Button onClick={() => {
+                    //  window.open('/contact', '_blank') 
+                    props.setcontactBox(true)
+                     }} variant='contained'>Contact us</Button>
             </Box>
         </Box>
     )

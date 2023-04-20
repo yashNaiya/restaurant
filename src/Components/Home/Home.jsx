@@ -6,18 +6,21 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import api from '../../Api'
 import Footer from '../Footer'
+import { Dialog, DialogTitle } from '@mui/material'
+import ContactPage from '../ContactPage'
 
 const Home = () => {
 
   const [rootUser, setrootUser] = useState()
   const [restaurant, setrestaurant] = useState('restaurant')
+  const [contactBox, setcontactBox] = useState(false)
   const navigate = useNavigate()
-  const callHomePage = ()=>{
+  const callHomePage = () => {
 
-      api.get("/home",{withCredentials:true})
-      .then(res=>{
+    api.get("/home", { withCredentials: true })
+      .then(res => {
         setrootUser(res.data.rootUser)
-      }).catch((err)=>{
+      }).catch((err) => {
         navigate('/login')
       })
 
@@ -25,12 +28,16 @@ const Home = () => {
   useEffect(() => {
     callHomePage();
   }, [])
-  if(rootUser){
+  if (rootUser) {
     return (
       <Box display={'flex'} flexDirection={'column'}>
+        <Dialog fullWidth disableEscapeKeyDown open={contactBox} onClose={() => { setcontactBox(false) }}>
+          <DialogTitle>Help Request</DialogTitle>
+          <ContactPage/>
+        </Dialog>
         <Navbar setrestaurant={setrestaurant} />
-        <Menu restaurant={restaurant} rootUserId = {rootUser._id}/>
-        <Footer/>
+        <Menu restaurant={restaurant} rootUserId={rootUser._id} />
+        <Footer setcontactBox={setcontactBox} />
       </Box>
     )
   }

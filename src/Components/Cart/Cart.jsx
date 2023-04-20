@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogTitle, Typography } from '@mui/material'
 import React from 'react'
 import Navbar from '../Navbar'
 import Review from './Review'
@@ -8,12 +8,14 @@ import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRound
 import { useEffect, useState } from 'react'
 import api from '../../Api'
 import Footer from '../Footer'
+import ContactPage from '../ContactPage'
 const Cart = () => {
     const navigation = useNavigate()
     const [total, setTotal] = useState(0)
     const [gst, setGst] = useState(0)
     const [hasOrdered, sethasOrdered] = useState(false)
     const [rootUser, setrootUser] = useState()
+    const [contactBox, setcontactBox] = useState(false)
     const callCartPage = () => {
         console.log("authentication called")
         api.get("/cart", { withCredentials: true })
@@ -33,6 +35,10 @@ const Cart = () => {
     if (rootUser) {
         return (
             <Box display={'flex'} flexDirection={'column'}>
+                <Dialog fullWidth disableEscapeKeyDown open={contactBox} onClose={() => { setcontactBox(false) }}>
+                    <DialogTitle>Help Request</DialogTitle>
+                    <ContactPage />
+                </Dialog>
                 <Navbar />
                 <Box marginX={'10%'} marginY={'2rem'}>
                     <Box borderBottom={'2px solid #a9927d'} display={'flex'} flexDirection={'row'}>
@@ -46,16 +52,16 @@ const Cart = () => {
                     </Box>
                     <Box marginTop={'2rem'} width={'100%'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
                         <Review hasOrdered={hasOrdered} setGst={setGst} setTotal={setTotal} rootUser={rootUser} />
-                        <Summery 
-                        sethasOrdered={sethasOrdered}
-                        setGst={setGst} 
-                        setTotal={setTotal} 
-                        gst={gst} 
-                        total={total} 
-                        rootUserId={rootUser._id} />
+                        <Summery
+                            sethasOrdered={sethasOrdered}
+                            setGst={setGst}
+                            setTotal={setTotal}
+                            gst={gst}
+                            total={total}
+                            rootUserId={rootUser._id} />
                     </Box>
                 </Box>
-                <Footer/>
+                <Footer setcontactBox={setcontactBox} />
             </Box>
         )
     }

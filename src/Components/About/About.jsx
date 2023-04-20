@@ -1,31 +1,48 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogTitle, Typography } from '@mui/material'
 import React from 'react'
 import Footer from '../Footer'
 import image from '../../Assets/paper.jpg'
 import { fontSize } from '@mui/system'
+import Navbar from '../Navbar'
+import ContactPage from '../ContactPage'
+import { useNavigate } from 'react-router-dom';
+import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 const About = () => {
+    const [contactBox, setcontactBox] = React.useState(false)
+    const navigation = useNavigate()
     return (
         <Box>
+            <Dialog fullWidth disableEscapeKeyDown open={contactBox} onClose={() => { setcontactBox(false) }}>
+                <DialogTitle>Help Request</DialogTitle>
+                <ContactPage />
+            </Dialog>
+            <Navbar />
             <Box paddingY={'2rem'} paddingLeft={'2rem'} paddingRight={'6rem'} width={'70%'} margin='auto' minHeight={'100vh'}
             >
-                <Typography fontSize={'24px'}>
-                <p><b>About us and history</b></p>
-                </Typography>
+                <Box borderBottom={'2px solid #a9927d'} display={'flex'} flexDirection={'row'}>
+                    <Button onClick={() => {
+                        navigation('/home')
+                    }}>
+                        <ArrowBackIosNewRoundedIcon fontSize='15px' />
+                       Home
+                    </Button>
+                    <Typography m={'auto'} textAlign={'center'} variant={'h5'}> About Us And History</Typography>
+                </Box>
                 <Typography
-                    marginTop={'1rem'}
+                    marginTop={'3rem'}
                 >
-                    
-                    Welcome to The Bombay, an authentic Indian restaurant serving delicious cuisine with a modern twist. Our restaurant is located in the heart of the city and is the perfect destination for food lovers who enjoy a culinary experience like no other.<br/><br/>
 
-                    The Bombay was established in 2005 by our founder, Mr. Suresh Kumar, who had a passion for cooking and a desire to share his love for Indian food with the world. Mr. Kumar began his culinary journey by mastering the art of Indian cuisine, spending countless hours experimenting with spices and ingredients until he perfected the flavors and textures that would later become the signature dishes of The Bombay.<br/><br/>
+                    Welcome to The Bombay, an authentic Indian restaurant serving delicious cuisine with a modern twist. Our restaurant is located in the heart of the city and is the perfect destination for food lovers who enjoy a culinary experience like no other.<br /><br />
 
-                    Over the years, The Bombay has become a popular destination for foodies from all over the world, attracting locals and tourists alike with its exceptional cuisine and warm hospitality. Our restaurant has won numerous awards for its culinary excellence, including the prestigious Best Indian Restaurant award in the city.<br/><br/>
+                    The Bombay was established in 2005 by our founder, Mr. Suresh Kumar, who had a passion for cooking and a desire to share his love for Indian food with the world. Mr. Kumar began his culinary journey by mastering the art of Indian cuisine, spending countless hours experimenting with spices and ingredients until he perfected the flavors and textures that would later become the signature dishes of The Bombay.<br /><br />
 
-                    At The Bombay, we pride ourselves on using only the freshest and highest quality ingredients, sourced from local markets and trusted suppliers. Our menu features a wide variety of dishes that are prepared using traditional Indian cooking methods, with a modern twist that adds a unique and innovative touch to every meal.<br/><br/>
+                    Over the years, The Bombay has become a popular destination for foodies from all over the world, attracting locals and tourists alike with its exceptional cuisine and warm hospitality. Our restaurant has won numerous awards for its culinary excellence, including the prestigious Best Indian Restaurant award in the city.<br /><br />
 
-                    In addition to our delicious food, we also offer an inviting and comfortable atmosphere that is perfect for enjoying a meal with family and friends. Our staff is friendly and knowledgeable, always ready to provide recommendations and answer any questions you may have.<br/><br/>
+                    At The Bombay, we pride ourselves on using only the freshest and highest quality ingredients, sourced from local markets and trusted suppliers. Our menu features a wide variety of dishes that are prepared using traditional Indian cooking methods, with a modern twist that adds a unique and innovative touch to every meal.<br /><br />
 
-                    Whether you're looking for a romantic dinner for two, a family gathering, or a corporate event, The Bombay is the perfect choice. Come experience the taste of India and let us take you on a culinary journey that will leave you satisfied and craving more.<br/><br/>
+                    In addition to our delicious food, we also offer an inviting and comfortable atmosphere that is perfect for enjoying a meal with family and friends. Our staff is friendly and knowledgeable, always ready to provide recommendations and answer any questions you may have.<br /><br />
+
+                    Whether you're looking for a romantic dinner for two, a family gathering, or a corporate event, The Bombay is the perfect choice. Come experience the taste of India and let us take you on a culinary journey that will leave you satisfied and craving more.<br /><br />
                 </Typography>
 
                 <Typography marginTop={'1rem'} textAlign='left'>
@@ -78,7 +95,7 @@ const About = () => {
                     <br /><br />We value your feedback and encourage you to share your thoughts and comments with us. Whether you have a question, suggestion, or simply want to let us know how we're doing, we're always happy to hear from you. Thank you for choosing The Bombay, and we look forward to serving you soon.
                 </Typography>
             </Box>
-            <Footer />
+            <Footer setcontactBox={setcontactBox} />
         </Box>
     )
 }
