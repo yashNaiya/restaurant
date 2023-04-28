@@ -11,7 +11,7 @@ const Landing = () => {
     })
     useEffect(() => {
       api.get('/landing')
-      .then(res=>alert('responce came from backend'))
+      .then(res=>{alert(res.data)})
     }, [])
     
   return (

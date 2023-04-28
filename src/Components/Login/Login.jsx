@@ -1,12 +1,16 @@
 import { Box, Typography, TextField, Button, styled, } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { NavLink, useNavigate } from 'react-router-dom';
 import api from '../../Api';
 const Login = () => {
     const navigate = useNavigate()
-
+    useEffect(() => {
+      api.get('/login')
+      .then(res=>{alert(res.data)})
+    }, [])
+    
     const [inputs, setinputs] = useState({
         email: "",
         password: "",
