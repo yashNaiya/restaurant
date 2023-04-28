@@ -1,13 +1,19 @@
 import { Box, Button, styled, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import image from '../../Assets/landing.jpg'
 import { NavLink } from 'react-router-dom';
+import api from '../../Api';
 
 const Landing = () => {
 
   const PageLink = styled(NavLink)({
     textDecoration:'none'
     })
+    useEffect(() => {
+      api.get('/landing')
+      .then(res=>alert('responce came from backend'))
+    }, [])
+    
   return (
     <Box display={'flex'} m={0} p={0} sx={{
       backgroundImage: `url(${image})`,
