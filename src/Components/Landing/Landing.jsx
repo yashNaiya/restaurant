@@ -9,10 +9,7 @@ const Landing = () => {
   const PageLink = styled(NavLink)({
     textDecoration:'none'
     })
-    useEffect(() => {
-      api.get('/landing')
-      .then(res=>{alert(res.data)})
-    }, [])
+
     
   return (
     <Box display={'flex'} m={0} p={0} sx={{

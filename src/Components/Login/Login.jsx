@@ -6,10 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import api from '../../Api';
 const Login = () => {
     const navigate = useNavigate()
-    useEffect(() => {
-      api.get('/login')
-      .then(res=>{alert(res.data)})
-    }, [])
+  
     
     const [inputs, setinputs] = useState({
         email: "",
