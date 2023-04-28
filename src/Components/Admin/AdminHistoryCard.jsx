@@ -4,7 +4,7 @@ import { useState } from 'react'
 import api from '../../Api'
 
 const AdminHistoryCard = (props) => {
-    const [username, setusername] = useState()
+    const [username, setusername] = useState('')
     useEffect(() => {
         if (props) {
             api.post('/getusername', { userId: props.order.userId })
@@ -20,23 +20,22 @@ const AdminHistoryCard = (props) => {
             })
             .catch(err => { })
     }
-    if (props && username) {
-        console.log(props.order)
+    if (props && username!=='') {
+        
         return (
             <Box paddingY={'1rem'} borderRadius={5} bgcolor={'#d3d3d3'} paddingX={'2rem'} marginY={'2rem'} minHeight={'8rem'} display={'flex'} justifyContent={'space-between'} flexDirection={'column'}>
                 <Box bgcolor={'#f2f2f2'} borderRadius={5} p={'1rem'}>
-                    {props.order.order.map(item => {
+                    {props.order.order.map((item,index) => {
                         return (
-                            <Typography>{item.count} {item.name}</Typography>
+                            <Typography key={index}>{item.count} {item.name}</Typography>
                         )
                     })}
                 </Box>
                 <Box display={'flex'} justifyContent={'space-between'} flexDirection={'row'}>
                     <Box>
                         <Typography paddingTop={'1rem'} variant='body1'>Total : {props.order.total}</Typography>
-                        <Typography paddingTop={'1rem'} variant='body1'>Customer : {username}</Typography>
+                        <Typography paddingTop={'1rem'} variant='body1'>Customer :{username?'':username}</Typography>
                         <Typography paddingTop={'1rem'} variant='body1'>Instruction : {props.order.Instructions}</Typography>
-
                     </Box>
                     <Box>
                         {/* <Typography paddingTop={'1rem'} variant='body1'>Size : {props.order.size}</Typography> */}
