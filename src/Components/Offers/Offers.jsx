@@ -8,6 +8,7 @@ import api from '../../Api';
 import gift from '../../Assets/gift-box.png'
 import ContactPage from '../ContactPage';
 import { CloseCircle } from 'iconsax-react';
+
 const Offers = () => {
     const [offers, setoffers] = useState([])
     const [contactBox, setcontactBox] = useState(false)
