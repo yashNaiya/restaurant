@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import api from '../Api'
 
 const ContactPage = () => {
+    
     const [data, setdata] = useState({
         name:"",
         subject:"",
