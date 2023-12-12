@@ -99,7 +99,7 @@ const ReviewCard = (props) => {
             <Box display='flex' flexDirection={'column'} sx={{ borderBottom: '2px solid #a9927d' }}>
                 <Box justifyContent={'space-between'}
                     maxHeight={'fit-content'}
-                    minHeight={'8rem'} display={'flex'} bgcolor='primary.main' flexDirection={'row'} marginTop={'1rem'}>
+                    minHeight={'8rem'} display={'flex'} borderRadius={'1rem'} flexDirection={'row'} marginTop={'1rem'}>
                     <Box
                         m={'2%'}
                         minWidth={'30%'}
@@ -124,7 +124,7 @@ const ReviewCard = (props) => {
                                     setCount(count - 1)
 
                                 }}
-                                sx={{ minHeight: 0, minWidth: 0, padding: 0, color: '#fff' }}>
+                                sx={{ minHeight: 0, minWidth: 0, padding: 0 }}>
                                 <RemoveIcon />
                             </Button>
                             <Typography>{Number(count)}</Typography>
@@ -132,7 +132,7 @@ const ReviewCard = (props) => {
                                 onClick={() => {
                                     setCount(count + 1)
                                 }}
-                                sx={{ minHeight: 0, minWidth: 0, padding: 0, color: '#fff' }}>
+                                sx={{ minHeight: 0, minWidth: 0, padding: 0}}>
                                 <AddIcon />
                             </Button>
                         </Box>
@@ -140,7 +140,7 @@ const ReviewCard = (props) => {
                     </Box>
 
                 </Box>
-                <Box width={'100%'} bgcolor='primary.main' display={'flex'} justifyContent='flex-end' flexDirection={'row'}>
+                {/* <Box width={'100%'} bgcolor='primary.main' display={'flex'} justifyContent='flex-end' flexDirection={'row'}>
                     <IconButton onClick={() => { setshow(!show) }} sx={{ margin: 0, padding: 0 }}><ArrowDown3 /></IconButton>
                 </Box>
                 {show && <Box
@@ -240,7 +240,7 @@ const ReviewCard = (props) => {
                         </FormControl>
                     </Box>}
 
-                </Box>}
+                </Box>} */}
                 {loading && <Typography>Updating...</Typography>}
             </Box>
         )
