@@ -20,9 +20,9 @@ const OrderHistory = (props) => {
 
   if (pastOrder) {
     return (
-      <Box width={'70%'} borderRadius='1rem' bgcolor='primary.main' paddingX={'1rem'} paddingY={'1rem'} marginX={'2rem'}>
+      <Box width={'70%'} bgcolor='primary.main' paddingX={'1rem'} paddingY={'1rem'} marginX={'2rem'}>
         <Box borderRadius={'.3rem'} paddingLeft={'2rem'} bgcolor='secondary.main'>
-          <Typography variant={'h6'} color={'#fff'}>Live Orders</Typography>
+          <Typography variant={'h6'} color={'#434752'}>Live Orders</Typography>
         </Box>
         {liveOrder.map(order => {
           return (
@@ -30,7 +30,7 @@ const OrderHistory = (props) => {
           )
         })}
         <Box borderRadius={'.3rem'} paddingLeft={'2rem'} bgcolor={'secondary.main'}>
-          <Typography  marginTop={'2rem'} variant={'h6'} color={'#fff'}>Order History</Typography>
+          <Typography  marginTop={'2rem'} variant={'h6'} color={'#434752'}>Order History</Typography>
         </Box>
         {pastOrder.map(order => {
           return (

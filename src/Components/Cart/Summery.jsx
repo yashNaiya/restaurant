@@ -108,14 +108,14 @@ const Summery = (props) => {
     return (
 
         <Box width='45%'>
-            <Box  width={'70%'} minHeight={'25rem'} maxHeight='fit-content' display={'flex'}  marginLeft={'5rem'} flexDirection={'column'} justifyContent={'space-evenly'} p={'2rem'} borderRadius={'1rem'} border={'2px solid #a9927d'}>
-                <Typography fontWeight={'bold'} borderBottom={'2px solid #a9927d'}>Order Summery</Typography>
+            <Box  width={'70%'} minHeight={'25rem'} maxHeight='fit-content' display={'flex'}  marginLeft={'5rem'} flexDirection={'column'} justifyContent={'space-evenly'} p={'2rem'} bgcolor={'#dee1e6'}>
+                <Typography fontWeight={'bold'} borderBottom={'2px solid #434752'}>Order Summery</Typography>
                 <Box marginY={'1rem'} display={'flex'} justifyContent={'space-evenly'} flexDirection={'column'}>
                     <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
                         <Typography>Sub Total</Typography>
                         <Typography>${props.total.toFixed(2)}</Typography>
                     </Box>
-                    <Box borderBottom={'2px solid #a9927d'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
+                    <Box borderBottom={'2px solid #434752'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
                         <Typography>GST</Typography>
                         <Typography>${props.gst.toFixed(2)}</Typography>
                     </Box>
@@ -202,7 +202,7 @@ const Summery = (props) => {
                             
                                 <GooglePayButton
                                     
-                                    buttonColor='#a9927d'
+                                    buttonColor='#434752'
                                     buttonSizeMode='fill'
                                     environment="TEST"
                                     paymentRequest={{

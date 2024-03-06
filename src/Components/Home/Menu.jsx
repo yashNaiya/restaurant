@@ -78,8 +78,7 @@ const Menu = (props) => {
                 display={'flex'}
                 justifyContent={'space-around'}
                 flexDirection={'column'}>
-                <Box width={'300px'}>
-
+                <Box position={'relative'} zIndex={open ? 1000 : 1} width={'300px'}>
                     <ListItemButton onClick={handleClick}>
                         <ListItemIcon>
                             <InboxIcon />
@@ -88,7 +87,7 @@ const Menu = (props) => {
                         <ListItemText primary="Menu" />
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
+                    <Collapse zIndex={1000} in={open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             <Link to="pizza" spy={true} smooth={true} offset={50} duration={500}>
                                 <ListItemButton sx={{ pl: 4 }}>
@@ -104,10 +103,10 @@ const Menu = (props) => {
                         </List>
                     </Collapse>
                 </Box>
-
+                <Box zIndex={1} position={'initial'}>
                 <Box
                     id={'pizza'}
-                    borderTop={'2px solid #a9927d'}
+                    borderTop={'2px solid #434752'}
                     paddingTop={8}
                     margin="50px auto"
                     display={'flex'}
@@ -125,7 +124,7 @@ const Menu = (props) => {
                 </Box>
                 <Box
                     id={'burger'}
-                    borderTop={'2px solid #a9927d'}
+                    borderTop={'2px solid #434752'}
                     paddingTop={8}
                     margin="50px auto"
                     minHeight={'100vh'}
@@ -140,6 +139,7 @@ const Menu = (props) => {
                         <Card rootUserId={props.rootUserId} key={burg._id} image={burger} item={burg} />
 
                     )}
+                </Box>
                 </Box>
             </Box>
         )

@@ -23,11 +23,11 @@ const AdminHistoryCard = (props) => {
     if (props && username!=='') {
         
         return (
-            <Box paddingY={'1rem'} borderRadius={5} bgcolor={'#d3d3d3'} paddingX={'2rem'} marginY={'2rem'} minHeight={'8rem'} display={'flex'} justifyContent={'space-between'} flexDirection={'column'}>
-                <Box bgcolor={'#f2f2f2'} borderRadius={5} p={'1rem'}>
+            <Box paddingY={'1rem'}  bgcolor={'#dee1e6'} paddingX={'2rem'} marginY={'2rem'} minHeight={'8rem'} display={'flex'} justifyContent={'space-between'} flexDirection={'column'}>
+                <Box bgcolor={'#dee1e6'} p={'1rem'}>
                     {props.order.order.map((item,index) => {
                         return (
-                            <Typography key={index}>{item.count} {item.name}</Typography>
+                            <Typography fontWeight={'bold'} key={index}>{item.count} {item.name}</Typography>
                         )
                     })}
                 </Box>

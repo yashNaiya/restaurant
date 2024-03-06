@@ -2,14 +2,14 @@ import { createTheme } from "@mui/material";
 
 const theme = createTheme({
     typography:{
-        fontFamily:'Lucida Sans',
+        fontFamily:'Lexend',
     },
     palette:{
         primary:{
-            main:'#a9927d',
+            main:'#434752',
         },
         secondary:{
-            main:'#5e503f'
+            main:'#dee1e6'
         },
         third:{
             main:'#49111c'

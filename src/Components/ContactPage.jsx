@@ -32,7 +32,7 @@ const ContactPage = () => {
     if (rootUser) {
 
         return (
-            <Box bgcolor={'#37474F'} width={'100%'} display={'flex'} flexDirection='column' alignItems='center' >
+            <Box bgcolor={'#434752'} width={'100%'} display={'flex'} flexDirection='column' alignItems='center' >
                 <Box marginTop={'2rem'}  display={'flex'}
                     borderRadius='2rem'
                     flexDirection='column'
@@ -50,7 +50,7 @@ const ContactPage = () => {
                             <TextField margin='auto' fullWidth value={data.message} name='message' onChange={(e)=>{handleChange(e)}} minRows={5} maxRows={5} multiline placeholder='message' sx={{ backgroundColor: '#fff' }}></TextField>
                         </Box>
                         <Box>
-                            <Button variant='contained'
+                            <Button variant='contained' 
                                 onClick={() => {
                                     // console.log(data)
                                     const from = rootUser.email
@@ -65,7 +65,7 @@ const ContactPage = () => {
                                         .catch()
                                 }}
                             >send</Button>
-                            <Button onClick={() => { setdata({
+                            <Button style={{backgroundColor:'#fff'}} onClick={() => { setdata({
                                 name:"",
                                 subject:"",
                                 message:""

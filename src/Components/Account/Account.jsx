@@ -34,7 +34,7 @@ const Account = () => {
             </Dialog>
             <Navbar />
             <Box marginX={'10%'} marginY={'2rem'}>
-                <Box borderBottom={'2px solid #a9927d'} display={'flex'} flexDirection={'row'}>
+                <Box borderBottom={'2px solid #434752'} display={'flex'} flexDirection={'row'}>
                     <Button onClick={() => {
                         navigation('/home')
                     }}>

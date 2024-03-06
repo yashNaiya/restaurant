@@ -9,16 +9,16 @@ const AdminMain = () => {
     const [onPage, setonPage] = useState(1)
     return (
         <Box>
-            <Box paddingX={8} bgcolor={'secondary.main'} p={3} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
+            <Box paddingX={8} bgcolor={'primary.main'} p={3} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
                 <Box>
-                    <Typography fontFamily={"'Lato', 'sans-serif'"} color={'#f2f4f3'} variant={'h5'}>The Bom|bay</Typography>
+                    <Typography fontWeight={'bold'} color={'#f2f4f3'} variant={'h5'}>The Bom|bay</Typography>
                 </Box>
             </Box>
             <Box width={'100%'} minHeight={'100vh'}>
                 <Stack direction={'row'} spacing={2} justifyContent={'space-between'}>
-                    <Box bgcolor={'secondary.main'} flex={.3} minHeight={'100vh'} maxHeight={'100%'} paddingTop={'3rem'}>
+                    <Box bgcolor={'primary.main'} flex={.3} minHeight={'100vh'} maxHeight={'100%'} paddingTop={'3rem'}>
                         <ListItem sx={{ paddingX: '0' }}>
-                            <ListItemButton onClick={() => { setonPage(1) }} sx={{ backgroundColor: "#f2f2f2" }}>
+                            <ListItemButton onClick={() => { setonPage(1) }} sx={{ backgroundColor: "secondary.main" }}>
                                 <ListItemText>items</ListItemText>
                             </ListItemButton>
                         </ListItem>

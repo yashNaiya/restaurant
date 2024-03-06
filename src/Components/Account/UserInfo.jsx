@@ -35,8 +35,8 @@ const UserInfo = (props) => {
   if(props.rootUser){
     return (
       !edit &&
-      <Box bgcolor={'#D3D3D3'} borderRadius={'1rem'} width={'30%'} height={'15rem'} display={'flex'} justifyContent={'space-evenly'} flexDirection={'column'} p={'1rem'}>
-          <Box borderBottom={'2px solid #a9927d'} alignItems={'center'} display={'flex'} justifyContent={'space-between'} width={'100%'} flexDirection={'row'}>
+      <Box bgcolor={'#dee1e6'}  width={'30%'} height={'15rem'} display={'flex'} justifyContent={'space-evenly'} flexDirection={'column'} p={'1rem'}>
+          <Box borderBottom={'2px solid #434752'} alignItems={'center'} display={'flex'} justifyContent={'space-between'} width={'100%'} flexDirection={'row'}>
               <Typography fontSize={'large'} fontWeight={'bold'}>{props.rootUser.name}</Typography>
               <Button onClick={handleEdit}>edit</Button>
           </Box>

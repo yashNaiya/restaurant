@@ -6,10 +6,10 @@ const Footer = (props) => {
     const navigate = useNavigate()
     return (
         <Box display={'flex'} justifyContent='space-evenly'
-            flexDirection={'row'} height={'12rem'} bgcolor={'#37474F'}
+            flexDirection={'row'} height={'12rem'} bgcolor={'#dee1e6'}
             alignItems='center'
             width={'100%'}>
-            <Box color={'#fff'}>
+            <Box color={'primary.main'}>
                 <Typography variant='body1' fontSize={'20px'}>Address:</Typography>
                 <Typography>
                     123 Main Street, in the heart of downtown Toronto
@@ -18,11 +18,11 @@ const Footer = (props) => {
             </Box>
             <Box display='flex' flexDirection={'column'}>
                 <Box>
-                    <IconButton sx={{ color: '#fff' }}><Instagram /></IconButton>
-                    <IconButton sx={{ color: '#fff' }}><Facebook /></IconButton>
-                    <IconButton sx={{ color: '#fff' }}><Map /></IconButton>
+                    <IconButton sx={{ color: 'primary.main' }}><Instagram /></IconButton>
+                    <IconButton sx={{ color: 'primary.main' }}><Facebook /></IconButton>
+                    <IconButton sx={{ color: 'primary.main' }}><Map /></IconButton>
                 </Box>
-                <IconButton onClick={() => { navigate('/about') }} sx={{ color: '#fff' }}>Know More<ArrowRight3 /></IconButton>
+                <IconButton onClick={() => { navigate('/about') }} sx={{ color: 'primary.main' }}>Know More<ArrowRight3 /></IconButton>
             </Box>
             <Box>
                 <Button onClick={() => {

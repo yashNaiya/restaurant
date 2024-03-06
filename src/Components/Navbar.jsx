@@ -35,7 +35,7 @@ const Navbar = (props) => {
         return (
             <Box paddingX={8} bgcolor={'secondary.main'} p={3} display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
                 <Box>
-                    <Typography fontFamily={"'Lato', 'sans-serif'"} color={'#f2f4f3'} variant={'h5'}>The Bom|bay</Typography>
+                    <Typography fontWeight={"bold"} color={'#434752'} variant={'h5'}>The Bom|bay</Typography>
                 </Box>
                 <Box display={'flex'} justifyContent={'space-evenly'}>
                     <Button

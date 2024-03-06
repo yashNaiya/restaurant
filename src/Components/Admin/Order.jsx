@@ -22,13 +22,13 @@ const Order = () => {
     if(pastOrder){
         return (
             <Box>
-                <Typography marginTop={'3rem'} borderBottom={'3px solid #a9927d'} variant={'h5'} color={'secondary.main'}>Live Orders</Typography>
+                <Typography marginTop={'3rem'} borderBottom={'3px solid #434752'} variant={'h5'} color={'primary.main'}>Live Orders</Typography>
                 {liveOrder.map(order => {
                     return (
                         <AdminHistoryCard flag={flag} setflag={setflag} key={order._id} order={order} delivered={false} />
                     )
                 })}
-                 <Typography marginY={'3rem'} borderBottom={'3px solid #a9927d'} variant={'h5'} color={'secondary.main'}>Past Orders</Typography>
+                 <Typography marginY={'3rem'} borderBottom={'3px solid #434752'} variant={'h5'} color={'primary.main'}>Past Orders</Typography>
                 {pastOrder.map(order => {
                     return (
                         <AdminHistoryCard key={order._id} order={order} delivered={true} />

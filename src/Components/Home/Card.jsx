@@ -61,7 +61,7 @@ const Card = (props) => {
                     <Box p={1} display={'flex'} flexDirection={'column'} maxHeight={'auto'} >
                         <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'}
                         >
-                            <Typography fontSize={'20px'} maxWidth={'60%'} color={'primary.main'}>{props.item.name}</Typography>
+                            <Typography fontSize={'20px'} fontWeight={'bold'} maxWidth={'60%'} color={'primary.main'}>{props.item.name}</Typography>
                             <Typography color={'secondary.main'}>{props.item.price}$</Typography>
                         </Box>
                         <Box height={'1.3rem'} overflow={'clip'} >

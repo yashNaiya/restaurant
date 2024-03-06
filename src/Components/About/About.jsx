@@ -21,7 +21,7 @@ const About = () => {
             <Navbar />
             <Box paddingY={'2rem'} paddingLeft={'2rem'} paddingRight={'6rem'} width={'70%'} margin='auto' minHeight={'100vh'}
             >
-                <Box borderBottom={'2px solid #a9927d'} display={'flex'} flexDirection={'row'}>
+                <Box borderBottom={'2px solid #434752'} display={'flex'} flexDirection={'row'}>
                     <Button onClick={() => {
                         navigation('/home')
                     }}>
@@ -32,6 +32,7 @@ const About = () => {
                 </Box>
                 <Typography
                     marginTop={'3rem'}
+                    justifyContent={'center'}
                 >
 
                     Welcome to The Bombay, an authentic Indian restaurant serving delicious cuisine with a modern twist. Our restaurant is located in the heart of the city and is the perfect destination for food lovers who enjoy a culinary experience like no other.<br /><br />
