@@ -1,6 +1,6 @@
 import { Box, Button, styled, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
-import image from '../../Assets/landing.jpg'
+import image from '../../Assets/landing.png'
 import { NavLink } from 'react-router-dom';
 import api from '../../Api';
 
@@ -11,18 +11,25 @@ const Landing = () => {
     })
     
 
-    
+  
   return (
+    <Box 
+    sx={{flexDirection:{md:'row'}}}
+    display={'flex'}
+    // flexDirection={'row'}
+    justifyContent={'space-evenly'}
+    alignItems={'center'}>
+
     <Box display={'flex'} m={0} p={0} sx={{
-      backgroundImage: `url(${image})`,
+      // backgroundImage: `url(${image})`,
       backgroundSize: "cover",
       height: "100vh",
     }}
       flexDirection={'column'} justifyContent="flex-start">
 
-      <Box p={1} m={2} marginTop={7} display={'flex'} flexDirection='row' justifyContent={'space-evenly'} width='30%'>
+      <Box paddingX={5} marginX={3} marginTop={7} display={'flex'} flexDirection='row' justifyContent={'space-evenly'} width='40%'>
           <PageLink to={'/login'}>
-          <Button size='large' p={2}  variant='contained' sx={{ backgroundColor:'#f2f4f3', borderRadius: '1rem' ,textDecoration: 'none' }}>
+          <Button size='large' p={2}  variant='contained' sx={{ borderRadius: '1rem' ,textDecoration: 'none' }}>
             Login
           </Button>
           </PageLink>
@@ -42,6 +49,10 @@ const Landing = () => {
           Let's get you started!
         </Typography>
       </Box>
+    </Box>
+    <Box>
+      <img width={'50%'} src={image}/>
+    </Box>
     </Box>
   )
 }

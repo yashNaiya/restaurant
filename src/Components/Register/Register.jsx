@@ -52,14 +52,14 @@ const Register = () => {
                 flexDirection={'column'}
                 alignItems='center'
                 borderRadius={5}
-               
+                marginTop={5}
                 sx={{
                     ":hover": {
                         boxShadow: "2px 2px 4px #ccc"
                     }
                 }}
                 maxWidth={700}
-                margin="auto"
+                marginX="auto"
                 padding={3}
                 >
                 <Box display="flex" sx={{ alignItems: "center", margin: 'auto' }}>

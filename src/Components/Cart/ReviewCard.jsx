@@ -96,7 +96,7 @@ const ReviewCard = (props) => {
         // console.log(props.item.exrta)
 
         return (
-            <Box display='flex' flexDirection={'column'} sx={{ borderBottom: '2px solid #a9927d' }}>
+            <Box display='flex' flexDirection={'column'} sx={{ borderBottom: '2px solid #434752' }}>
                 <Box justifyContent={'space-between'}
                     maxHeight={'fit-content'}
                     minHeight={'8rem'} display={'flex'} borderRadius={'1rem'} flexDirection={'row'} marginTop={'1rem'}>
@@ -111,7 +111,7 @@ const ReviewCard = (props) => {
                         }}
                     >
                     </Box>
-                    <Typography m={'1%'} fontWeight='bold'>
+                    <Typography m={'1%'}>
                         {product.name}
                     </Typography>
                     <Typography m={'2%'} variant='caption'>

@@ -121,7 +121,7 @@ const Summery = (props) => {
                     </Box>
                     <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
                         <Typography fontWeight={'bold'}>Total</Typography>
-                        <Typography fontWeight={'bold'} color={'third.main'}>${(props.total + props.gst).toFixed(2)}</Typography>
+                        <Typography fontWeight={'bold'} >${(props.total + props.gst).toFixed(2)}</Typography>
                     </Box>
                     <Box marginTop={'1rem'} display={'flex'} flexDirection={'row'} alignItems='center'>
                         <Checkbox onChange={(e) => { if (e.target.checked) { setaddpc(true) } else { setaddpc(false) } }}></Checkbox>
@@ -134,7 +134,7 @@ const Summery = (props) => {
                 </Box>
                 {newTotal !== 0 &&
                 <Box>
-                    <Typography fontWeight={'bold'} color={'third.main'}>New Total : {newTotal}</Typography>
+                    <Typography fontWeight={'bold'}>New Total : {newTotal}</Typography>
                     {/* <IconButton onClick={()=>setnewTotal(0)}><CloseCircle/></IconButton> */}
                 </Box>
                 }
